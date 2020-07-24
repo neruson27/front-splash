@@ -66,7 +66,7 @@
     },
     mounted() {
       console.log(this.products)
-      let payconame = `Vertice Audio: Compra de ${this.numberOfitemsInCart} articulos`
+      let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
       let description = ''
       for (let item of this.products) {
         description = `${item.name} [Ctd: ${item.quantity}] ` + description
@@ -114,7 +114,6 @@
           branch: producto.branch,
           model: producto.model,
           category: producto.category,
-          audio: producto.audio,
           important: producto.important,
           description: producto.description,
           subcategory: producto.subcategory,

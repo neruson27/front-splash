@@ -240,7 +240,6 @@ export const PRODUCTOS_QUERY = gql`
       price
       highlight
       image
-      audio
       branch {
         name
       }
@@ -287,7 +286,6 @@ export const ADDPRODUCT_MUTATION = gql`
       price
       highlight
       image
-      audio
       branch {
         name
       }

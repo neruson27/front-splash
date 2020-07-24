@@ -21,7 +21,6 @@ export const ALL_ORDER_QUERY = gql`
         price
         highlight
         image
-        audio
         branch {
           name
         }
@@ -60,7 +59,6 @@ export const ONE_ORDER_QUERY = gql`
         description
         price
         image
-        audio
         branch {
           name
         }
@@ -98,7 +96,6 @@ export const CREATE_ORDER = gql`
         description
         price
         image
-        audio
         branch {
           name
         }
@@ -136,7 +133,6 @@ export const ORDER_STATUS_UPDATE = gql`
         description
         price
         image
-        audio
         branch {
           name
         }

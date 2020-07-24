@@ -1,9 +1,9 @@
 {
-  "name": "vertice-audio",
+  "name": "splash",
   "version": "0.0.1",
-  "description": "Ecommerce para Vertice Audio",
-  "productName": "vertice-audio",
-  "cordovaId": "org.promediosdigitales.verticeaudio",
+  "description": "Ecommerce para Splash",
+  "productName": "splash",
+  "cordovaId": "org.promediosdigitales.splash",
   "capacitorId": "",
   "author": "Nelson <kaironelson@gmail.com>",
   "private": true,

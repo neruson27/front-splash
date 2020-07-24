@@ -117,7 +117,7 @@
             </q-item>
           </template>
         </q-select>
-        <div class="col-6 text-center q-mt-md">
+        <div class="col-12 text-center q-mt-md">
           <q-slide-transition v-if="!updating || imghightlight">
             <img
               v-show="imghightlight"
@@ -137,29 +137,12 @@
             />
           </q-slide-transition>
         </div>
-        <div class="col-6 text-center self-center q-mt-md" v-if="!updating || audioSelect">
-          <audio :src="audioSelect" controls="controls" v-if="audioSelect">  
-            Tu navegador no soporta el elemento <code>audio</code>.
-          </audio>
-        </div>
-        <div class="col-6 text-center self-center q-mt-md" v-else>
-          <audio :src="config.api.url + audioPrevie" controls="controls">  
-            Tu navegador no soporta el elemento <code>audio</code>.
-          </audio>
-        </div>
         <q-file
           v-model="highlight"
           label="Selecciona la imagen destacada"
           accept=".jpg, .png, .svg"
           clearable
-          class="col-6 q-px-sm"
-        />
-        <q-file
-          v-model="audio"
-          label="Selecciona el audio"
-          accept=".mp3, .wav"
-          clearable
-          class="col-6 q-px-sm"
+          class="col-12 q-px-sm"
         />
         <q-scroll-area horizontal style="height: 200px;" class="col-12 q-mt-sm">
           <div class="row no-wrap full-width" v-if="!updating || previewImgs.length > 0">
@@ -272,8 +255,6 @@ export default {
       highlightPreview: '',
       image: [],
       imagePreview: [],
-      audio: [],
-      audioPrevie: '',
       category: {
         name:'Selecciona una categoria',
         subcategory: [],
@@ -287,7 +268,6 @@ export default {
       upload: false,
       previewImgs: '',
       imghightlight: '',
-      audioSelect: ''
     };
   },
   mounted() {
@@ -307,10 +287,8 @@ export default {
       this.price = this.product.price;
       this.highlight = undefined;
       this.image = undefined;
-      this.audio = undefined;
       this.highlightPreview = this.product.highlight
       this.imagePreview = this.product.image
-      this.audioPrevie = this.product.audio
       this.category = this.product.category;
       this.ref = this.product.ref;
       this.ctd = this.product.ctd;
@@ -329,11 +307,6 @@ export default {
       this.imghightlight = "";
       let image = await this.readFileAsync(newValue);
       this.imghightlight = image;
-    },
-    async audio(newValue) {
-      this.audioSelect = "";
-      let audio = await this.readFileAsync(newValue);
-      this.audioSelect = audio;
     },
     branch(newValue) {
       if (newValue === "Añadir") {
@@ -400,7 +373,6 @@ export default {
         price: this.price,
         highlight: this.highlight,
         image: this.image,
-        audio: this.audio.length === 0 ? '' : this.audio,
         category: this.category,
         ref: this.ref,
         ctd: parseInt(this.ctd),
@@ -422,7 +394,6 @@ export default {
             (this.price = ""),
             (this.highlight = []),
             (this.image = []),
-            (this.audio = []),
             (this.category = ""),
             (this.subcategory = ""),
             (this.tag = ""),
@@ -454,7 +425,6 @@ export default {
         ref: this.ref,
         highlight: this.highlight,
         image: this.image,
-        audio: this.audio,
         ctd: parseInt(this.ctd),
         important: this.important
       };
@@ -474,7 +444,6 @@ export default {
             (this.model = ""),
             (this.price = ""),
             (this.image = ""),
-            (this.audio = ""),
             (this.category = ""),
             (this.subcategory = ""),
             (this.tag = ""),

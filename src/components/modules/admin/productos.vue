@@ -135,7 +135,6 @@ export default {
       price: "",
       highlight: '',
       image: [],
-      audio: '',
       category: "",
       subcategory: "",
       tag: "",

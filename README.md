@@ -1,6 +1,6 @@
-# vertice-audio (vertice-audio)
+# splash (splash)
 
-Ecommerce para Vertice Audio
+Ecommerce para Splash
 
 ## Install the dependencies
 ```bash
