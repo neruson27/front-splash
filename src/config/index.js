@@ -1,6 +1,6 @@
 const urls = {
   development: "http://localhost:4000",
-  production: "https://splash-backend.herokuapp.com",
+  production: "https://perfumesysplash-backend.herokuapp.com/",
   // production: "https://splash.com"
 };
 
