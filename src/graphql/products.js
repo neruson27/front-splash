@@ -269,8 +269,6 @@ export const PRODUCTOS_QUERY = gql`
         name
       }
       ref
-      ctd
-      important
       createdAt
     }
   }
@@ -300,8 +298,6 @@ export const ADDPRODUCT_MUTATION = gql`
         name
       }
       ref
-      ctd
-      important
       createdAt
     }
   }
@@ -337,8 +333,6 @@ export const PRODUCT_UPDATE = gql`
         name
       }
       ref
-      ctd
-      important
       createdAt
     }
   }

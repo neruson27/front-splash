@@ -8,11 +8,11 @@
               <q-avatar rounded class="q-mb-xs">
                 <img :src="product.highlight ? config.api.url + product.highlight : config.api.url + product.image[0]" />
               </q-avatar>
-              <q-item-label>{{format(product.price)}} $</q-item-label>
+              <q-item-label>$ {{format(product.price)}}</q-item-label>
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>{{product.name}}</q-item-label>
+              <q-item-label class="ellipsis-2-lines">{{product.name}}</q-item-label>
               <q-item-label>{{product.branch.name}}</q-item-label>
               <q-item-label caption lines="2">{{product.description}}</q-item-label>
             </q-item-section>
@@ -20,19 +20,23 @@
             <q-item-section side top>
               <q-item-label
                 caption
-              >Unidades: <q-btn
-              outline
-              class="text-black no-pointer-events"
-              color="white"
-              size="xs"
-              :label="product.quantity"
-              ></q-btn> | Total: <q-btn
-              outline
-              class="text-black no-pointer-events"
-              color="white"
-              size="xs"
-              :label="'$ ' + format(product.price * product.quantity)"
-              ></q-btn></q-item-label>
+              >
+                Unidades: <q-btn
+                outline
+                class="text-black no-pointer-events"
+                color="white"
+                size="xs"
+                :label="product.quantity"
+                ></q-btn>
+                <br v-if="$q.screen.lt.md">
+                Total: <q-btn
+                outline
+                class="text-black no-pointer-events"
+                color="white"
+                size="xs"
+                :label="'$ ' + format(product.price * product.quantity)"
+                ></q-btn>
+              </q-item-label>
               <div class="row">
                 <q-btn flat round @click="add(product)" color="positive" icon="mdi-plus" />
                 <q-btn size="12px" flat dense round icon="mdi-minus" color="negative" @click="del(product)"/>

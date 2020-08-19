@@ -103,11 +103,11 @@ export default {
             }
           }
         })
-        .then(response => {
+        .then(async response => {
           console.log(response)
           if (response.data.Login.admin) {
+            await this.$router.go({ name: "homeAdmin" });
             saveToken(response.data.Login)
-            this.$router.push({ name: "homeAdmin" });
           } else {
             this.email = "";
             this.password = "";

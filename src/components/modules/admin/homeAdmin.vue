@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center" style="background-color:#f7f8fb">
-    <div class="col-md-10 col-lg-10 col-xl-10 col-sm-12">
+    <div class="col-md-10 col-lg-10 col-xl-10 col-sm-12 col-xs-12">
       <div
         class="q-mt-md text-h6"
       >{{tab === 'home' ? 'Resumen' : tab[0].toUpperCase() + tab.slice(1)}}</div>

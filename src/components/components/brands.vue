@@ -4,15 +4,15 @@
 }
 </style>
 <template>
-  <div>
-    <hooper :settings="hooperSettings">
+  <div class="row" :class="$q.screen.lt.md ? 'justify-center' : ''">
+    <hooper :settings="hooperSettings" :class="$q.screen.lt.md ? 'col-9' : ''">
       <slide v-for="branch in branchs" :key="branch._id">
         <q-avatar size="70px">
           <img :src="config.api.url + branch.image" />
         </q-avatar>
       </slide>
     </hooper>
-    <hooper :settings="hooperSettings">
+    <hooper :settings="hooperSettings" v-if="$q.screen.gt.sm">
       <slide v-for="branch in branchReverse" :key="branch._id">
         <q-avatar size="70px">
           <img :src="config.api.url + branch.image" />
@@ -48,15 +48,15 @@ export default {
             itemsToShow: 3
           },
           300: {
-            centerMode: false,
+            centerMode: true,
             itemsToShow: 3
           },
           600: {
-            centerMode: false,
+            centerMode: true,
             itemsToShow: 6
           },
           800: {
-            centerMode: false,
+            centerMode: true,
             itemsToShow: 6
           },
           1000: {

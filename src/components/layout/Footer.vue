@@ -4,7 +4,7 @@
       <div class="col-12" style="height:30px;"></div>
     </div>
     <div class="row justify-center bg-footer">
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-9 col-xs-9">
+      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">
         <div class="row">
           <div class="col-lg-5 col-xl-5 col-md-5 col-sm-12 col-xs-12 self-center">
             <q-img src="/statics/img/logo_1.svg" contain style="width: 300px; height: 180px;" />
@@ -124,12 +124,12 @@
         </div>
       </div>
     </div>
-    <div class="row text-center q-py-lg q-pl-xl" style="background-color:#111111;">
-      <span class="text-justify q-mr-xs">Políticas de privacidad y tratamiento de datos personales /</span>
+    <div class="row" :class="$q.screen.lt.md ? 'q-pl-md q-py-sm' : 'q-pl-xl q-py-lg'" style="background-color:#111111;">
+      <span class="text-justify q-mr-xs" :class="$q.screen.lt.md ? 'text-caption text-foot' : ''">Políticas de privacidad y tratamiento de datos personales</span>
 
-      <span class="text-justify q-mr-xs">© 2018 Splash S.A.S. Todos los derechos reservados /</span>
+      <span class="text-justify q-mr-xs" :class="$q.screen.lt.md ? 'text-caption text-foot' : ''">© 2020 Splash S.A.S. Todos los derechos reservados</span>
 
-      <span class="text-justify text-no-wrap">Prohibida la copia, reproducción parcial o total de los contenidos</span>
+      <span class="text-justify" :class="$q.screen.lt.md ? 'text-caption text-foot' : 'text-no-wrap'">Prohibida la copia, reproducción parcial o total de los contenidos</span>
     </div>
   </section>
 </template>
