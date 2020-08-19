@@ -210,7 +210,6 @@ export default {
         subcategory: producto.subcategory,
         tag: producto.tag,
         ref: producto.ref,
-        ctd: producto.ctd,
         quantity: this.counter,
         createdAt: producto.createdAt
       };
@@ -250,7 +249,6 @@ export default {
         subcategory: producto.subcategory,
         tag: producto.tag,
         ref: producto.ref,
-        ctd: producto.ctd,
         quantity: this.counter,
         createdAt: producto.createdAt
       };
