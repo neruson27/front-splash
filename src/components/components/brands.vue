@@ -4,7 +4,7 @@
 }
 </style>
 <template>
-  <div class="row" :class="$q.screen.lt.md ? 'justify-center' : ''">
+  <div class="row" :class="$q.screen.lt.md ? 'justify-center' : ''" v-if="branchs">
     <hooper :settings="hooperSettings" :class="$q.screen.lt.md ? 'col-9' : ''">
       <slide v-for="branch in branchs" :key="branch._id">
         <q-avatar size="70px">
@@ -71,6 +71,7 @@ export default {
   },
   async created() {
     await this.allBranchs()
+    if(this.branchs.length === 0) this.$emit('branchDontExist')
     this.hooperSettings.itemsToShow = this.branchs.length
   },
   methods: {

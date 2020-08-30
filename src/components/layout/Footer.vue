@@ -15,7 +15,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-facebook-box"
                   size="md"
                   flat
@@ -26,7 +26,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-instagram"
                   size="md"
                   flat
@@ -37,21 +37,21 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-headset"
                   size="md"
                   flat
                   label="Servicio al cliente"
                 ></q-btn>
               </div>
-              <div class="col-12 q-ma-sm q-ml-xl q-mt-xs">
+              <div class="col-12 q-ma-sm q-ml-xl q-mt-md">
                 <span style="font-size:10px;" class="text-bold">Pago Online Seguro</span>
                 <br />
-                <q-img src="statics/img/logo_epayco_400px.png" spinner-color="franja" width="20%"  class="q-mb-xs" container/>
+                <q-img src="statics/img/logo_epayco_400px.png" spinner-color="white" width="20%"  class="q-mb-md" container/>
                 <br />
-                <q-img src="statics/img/parte_1.png" spinner-color="franja" width="60%" />
+                <q-img src="statics/img/parte_1.png" spinner-color="white" width="60%" />
                 <br />
-                <q-img src="statics/img/parte_2.png" spinner-color="franja" width="60%" />
+                <q-img src="statics/img/parte_2.png" spinner-color="white" width="60%" />
               </div>
               <div class="col-12 q-ma-sm q-ml-xl"></div>
             </div>
@@ -62,7 +62,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-google-maps"
                   flat
                   label="Cr 38 # 9-45 C.C Bahia"
@@ -70,7 +70,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-map"
                   flat
                   label="Bogota - Colombia"
@@ -78,7 +78,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-whatsapp"
                   flat
                   label="+57 313 8348673"
@@ -88,7 +88,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-phone-settings-outline"
                   flat
                   label="+57 310 206 6376"
@@ -96,7 +96,7 @@
                 <q-btn
                   dark
                   no-caps
-                  color="franja"
+                  color="white"
                   icon="mdi-email"
                   flat
                   label="comercial@splash.com"
@@ -108,7 +108,7 @@
             <div class="row q-ml-md q-mt-xs q-mb-sm">
               <div class="col-6">
                 <span style="font-size:10px;">Desarrollado por:</span>
-                <q-img src="statics/img/logo_promedios.png" spinner-color="franja" width="80%" />
+                <q-img src="statics/img/logo_promedios.png" spinner-color="white" width="80%" />
               </div>
               <div class="col-2 self-center">
                 <q-btn align="left" flat rounded type="a" href="https://wa.me/573158394620?text=Hola estoy interesad@ en contactarlos" icon="mdi-whatsapp"></q-btn>
@@ -124,10 +124,10 @@
         </div>
       </div>
     </div>
-    <div class="row" :class="$q.screen.lt.md ? 'q-pl-md q-py-sm' : 'q-pl-xl q-py-lg'" style="background-color:#111111;">
+    <div class="row" :class="$q.screen.lt.md ? 'q-pl-md q-py-sm' : 'q-pl-xl q-py-md'" style="background-color:#262626;">
       <span class="text-justify q-mr-xs" :class="$q.screen.lt.md ? 'text-caption text-foot' : ''">Políticas de privacidad y tratamiento de datos personales</span>
 
-      <span class="text-justify q-mr-xs" :class="$q.screen.lt.md ? 'text-caption text-foot' : ''">© 2020 Splash S.A.S. Todos los derechos reservados</span>
+      <span class="text-justify q-mr-xs" :class="$q.screen.lt.md ? 'text-caption text-foot' : ''">© 2020 Perfumes y Splash Todos los derechos reservados</span>
 
       <span class="text-justify" :class="$q.screen.lt.md ? 'text-caption text-foot' : 'text-no-wrap'">Prohibida la copia, reproducción parcial o total de los contenidos</span>
     </div>

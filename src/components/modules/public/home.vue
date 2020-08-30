@@ -88,8 +88,8 @@
 
     <div class="row justify-center q-ma-sm">
       <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
-        <p class="text-left text-h6">Nuestras marcas:</p>
-        <brands></brands>
+        <p class="text-left text-h6" v-if="this.branchExist">Nuestras marcas:</p>
+        <brands @branchDontExist="branchDontExist()"></brands>
       </div>
     </div>
   </div>
@@ -111,7 +111,8 @@ export default {
       data: [],
       config: config,
       loader: false,
-      slider: []
+      slider: [],
+      branchExist: true,
     };
   },
   created() {
@@ -170,6 +171,9 @@ export default {
         .catch(err => {
           console.log("hubo un error: ", err);
         });
+    },
+    branchDontExist() {
+      this.branchExist = false
     },
     // getDetail(producto) {
     //   this.$router.push({ name: "detalles", params: producto });

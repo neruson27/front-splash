@@ -10,7 +10,7 @@
         <div class="bg-header col-12 sm-hide xs-hide">
           <div class="row justify-evenly">
             <q-space/>
-            <div class="col-5">
+            <div class="col-6">
               <q-banner class="transparent" style="width:100%;height:auto;">
                 <q-img src="/statics/img/logo_1.svg" contain style="width: 300px; height: 120px;" />
               </q-banner>
@@ -54,14 +54,14 @@
             </div>
           </div>
         </div>
-        <div class="col-12" style="border-top: 6px solid #683d25; width:100vw;"></div>
+        <div class="col-12" style="border-top: 6px solid #fbd283; width:100vw;"></div>
         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
           <q-toolbar class="q-my-xs">
             <q-btn
               class="lg-hide xl-hide md-hide"
               flat
               @click="drawer = !drawer"
-              color="franja"
+              color="white"
               round
               dense
               icon="menu"
@@ -80,23 +80,23 @@
                 <q-icon class="cursor-pointer" name="search" @click="searching()" />
               </template>
             </q-input>
-            <q-btn dark to="/" color="franja" flat label="INICIO" class="xs-hide sm-hide" />
+            <q-btn dark to="/" color="white" flat label="INICIO" class="xs-hide sm-hide" />
             <q-btn
               class="xs-hide sm-hide"
               dark
               to="/productos"
               flat
-              color="franja"
+              color="white"
               @mouseover="hello = true"
               label="Productos"
             ></q-btn>
-            <q-btn class="xs-hide sm-hide" dark to="/servicios" color="franja" flat label="SERVICIOS" />
-            <q-btn class="xs-hide sm-hide" dark to="/nosotros" color="franja" flat label="NOSOTROS" />
+            <q-btn class="xs-hide sm-hide" dark to="/servicios" color="white" flat label="SERVICIOS" />
+            <q-btn class="xs-hide sm-hide" dark to="/nosotros" color="white" flat label="NOSOTROS" />
             <q-btn
               class="xs-hide sm-hide"
               dark
               to="/contactenos"
-              color="franja"
+              color="white"
               flat
               label="CONTACTENOS"
             />
@@ -104,7 +104,7 @@
             <q-btn
               @click="open('right')"
               dark
-              color="franja"
+              color="white"
               icon="mdi-cart-outline"
               size="lg"
               flat

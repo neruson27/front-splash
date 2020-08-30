@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <div class="col-9 q-my-lg">
-      <div class="row justify-center">
+      <div class="row justify-start">
         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12 q-ma-sm">
           <q-select
             dense
@@ -88,7 +88,6 @@
               <q-img
                 :src="producto.highlight ? config.api.url + producto.highlight : config.api.url + producto.image[0]"
                 height="280px"
-                width="200px"
                 contain
               />
             </q-item>
