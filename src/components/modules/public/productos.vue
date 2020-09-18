@@ -318,7 +318,7 @@ export default {
         highlight: producto.highlight,
         image: producto.image,
         branch: producto.branch,
-        model: producto.model,
+        model: producto.model ? producto.model : '',
         category: producto.category,
         important: producto.important,
         description: producto.description,

@@ -30,7 +30,7 @@
           placeholder="Descripcion Larga"
           min-height="5rem"
         />
-        <q-input class="col-4 q-px-sm" v-model="model" label="Modelo" clearable :rules="[val => !!val || 'Esto es requerido!']" hide-bottom-space/>
+        <q-input class="col-4 q-px-sm" v-model="model" label="Modelo" clearable/>
         <q-select
           class="col-4 q-px-sm"
           v-model="branch"
@@ -413,7 +413,7 @@ export default {
       const data = {
         name: this.name,
         branch: !this.branch ? {} : this.branch,
-        model: this.model,
+        model: this.model ? this.model : '',
         subcategory: this.subcategory,
         tags: this.tag,
         description: this.description,
