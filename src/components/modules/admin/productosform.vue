@@ -38,6 +38,7 @@
           map-option
           :options="branchs"
           label="Marca"
+          v-if="branchs.length > 0"
         >
           <template v-slot:option="scope">
             <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
@@ -285,7 +286,7 @@ export default {
     if (this.updating) {
       this.id = this.product._id;
       this.name = this.product.name;
-      this.branch = this.product.branch;
+      if(this.product.branch) this.branch = this.product.branch;
       this.model = this.product.model;
       this.subcategory = this.product.subcategory;
       this.tag = this.product.tags;
