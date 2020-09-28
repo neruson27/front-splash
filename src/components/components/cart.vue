@@ -13,7 +13,7 @@
 
             <q-item-section>
               <q-item-label class="ellipsis-2-lines">{{product.name}}</q-item-label>
-              <q-item-label>{{product.branch.name}}</q-item-label>
+              <q-item-label v-if="product.branch">{{product.branch.name}}</q-item-label>
               <q-item-label caption lines="2">{{product.description}}</q-item-label>
             </q-item-section>
 
@@ -103,15 +103,12 @@ export default {
         name: producto.name,
         price: producto.price,
         image: producto.image,
-        branch: producto.branch,
         model: producto.model ? producto.model : '',
         category: producto.category,
-        important: producto.important,
         description: producto.description,
         subcategory: producto.subcategory,
         tag: producto.tag,
         ref: producto.ref,
-        ctd: producto.ctd,
         createdAt: producto.createdAt
       };
       this.$store.commit("addItem", item);

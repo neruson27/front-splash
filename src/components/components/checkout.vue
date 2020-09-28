@@ -12,7 +12,7 @@
                   width="100px"
                   height="100px"
                 />
-                <span><b>{{product.name}}</b> - {{product.branch.name}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
+                <span><b>{{product.name}}</b> - {{product.branch ? product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
               </q-card-section>
 
               <q-item-section class="col-6">
