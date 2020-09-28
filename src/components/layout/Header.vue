@@ -25,7 +25,7 @@
                     icon="mdi-facebook-box"
                     size="md"
                     flat
-                    label="@CentroMedicoInColger"
+                    label="@splash_colombia"
                   ></q-btn>
                 </div>
                 <div class="col-12">
@@ -36,7 +36,7 @@
                     icon="mdi-instagram"
                     size="md"
                     flat
-                    label="@CentroMedicoInColger"
+                    label="@splashcolombiap"
                   ></q-btn>
                 </div>
                 <div class="col-12">
@@ -47,6 +47,7 @@
                     icon="mdi-headset"
                     size="md"
                     flat
+                    type="a" href="tel:+57301331059"
                     label="Servicio al cliente"
                   ></q-btn>
                 </div>
@@ -133,7 +134,7 @@
     </div>
 
     <q-drawer v-model="drawer" :width="200">
-      <q-scroll-area class="fit" style="background-color:#2c2c2c;">
+      <q-scroll-area class="fit bg-header">
         <q-btn
           flat
           icon="mdi-arrow-left-bold"
@@ -146,7 +147,7 @@
           class="bg-transparent text-white q-pa-md row justify-center"
           style="width:100%;height:auto;"
         >
-          <q-img src="/statics/img/logo_1.png" style="width: 150px; height: 120px;" />
+          <q-img src="/statics/img/logo_1.svg" style="width: 150px; height: 120px;" />
         </q-banner>
         <q-tabs v-model="tab" vertical class="text-white">
           <q-separator dark />
@@ -182,7 +183,7 @@
             color="white"
             class="absolute-top-right lg-hide xl-hide"
           ></q-btn>
-          <q-img @click="$router.push('homeAdmin')" contain src="/statics/img/logo_1.png" style="width: 150px; height: 120px;" />
+          <q-img @click="$router.push('homeAdmin')" contain src="/statics/img/logo_1.svg" style="width: 150px; height: 120px;" />
         </q-banner>
         <q-tabs v-model="tab" inline-label vertical class="text-white" active-bg-color="vinotinto">
           <q-route-tab style="justify-content: start;" icon="mdi-home-outline" to="/homeAdmin" exact label="Inicio"></q-route-tab>
@@ -223,7 +224,7 @@
         <div class="row justify-between bg-header text-white">
           <q-card-actions>Precio total: <b class="q-ml-xs">{{'$ ' + format(total)}}</b></q-card-actions>
           <q-card-actions v-if="itemsInCart > 0">
-            <q-btn icon-right="mdi-credit-card" label="Comprar" v-on:click="$router.push('checkout')" />
+            <q-btn icon-right="mdi-credit-card" label="Comprar" v-on:click="$router.push('checkout')" color="franja"/>
           </q-card-actions>
         </div>
       </q-card>

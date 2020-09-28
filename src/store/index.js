@@ -28,17 +28,40 @@ export default new Vuex.Store({
       isAuthenticated: false,
       email: ""
     },
-    url_base: config.api.url
+    url_base: config.api.url,
+    checkout: {
+      name: '',
+      dni: '',
+      concept: '',
+      total: '',
+      tlf: '',
+      dir: '',
+      email: '',
+    }
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
+    },
+    setCheckout(state, checkout) {
+      state.checkout = checkout
     },
     setFullName(state, fullName) {
       state.user.fullName = fullName;
     },
     setAuthenticated(state, authenticate) {
       state.user.isAuthenticated = authenticate;
+    },
+    emptyCheckout(state) {
+      state.checkout = {
+        name: '',
+        dni: '',
+        concept: '',
+        total: '',
+        tlf: '',
+        dir: '',
+        email: ''
+      }
     },
     logout(state) {
       state.user = userVoid;

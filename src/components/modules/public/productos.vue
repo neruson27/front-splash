@@ -32,7 +32,7 @@
             @clear="clearAll()"
           />
         </div>
-        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12 q-ma-sm q-ma-sm">
+        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12 q-ma-sm q-ma-sm" v-if="branchs.lenght > 1">
           <q-select
             dense
             filled
@@ -87,7 +87,7 @@
             <q-item :to="{ path: '/detalles', query: { ref: producto.ref }}">
               <q-img
                 :src="producto.highlight ? config.api.url + producto.highlight : config.api.url + producto.image[0]"
-                height="280px"
+                height="200px"
                 contain
               />
             </q-item>
@@ -310,8 +310,6 @@ export default {
       this.data = Object.assign([], this.dataAll);
     },
     add(producto) {
-      console.log(producto.highlight)
-
       let item = {
         name: producto.name,
         price: producto.price,
@@ -320,12 +318,10 @@ export default {
         branch: producto.branch,
         model: producto.model ? producto.model : '',
         category: producto.category,
-        important: producto.important,
         description: producto.description,
         subcategory: producto.subcategory,
         tag: producto.tag,
         ref: producto.ref,
-        ctd: producto.ctd,
         createdAt: producto.createdAt
       };
       this.$store.commit("addItem", item);

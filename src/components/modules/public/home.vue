@@ -86,12 +86,12 @@
       </div>
     </div>
 
-    <div class="row justify-center q-ma-sm">
+    <!-- <div class="row justify-center q-ma-sm">
       <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <p class="text-left text-h6" v-if="this.branchExist">Nuestras marcas:</p>
         <brands @branchDontExist="branchDontExist()"></brands>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -179,6 +179,7 @@ export default {
     //   this.$router.push({ name: "detalles", params: producto });
     // },
     add(producto) {
+      console.log(producto.name)
       let item = {
         name: producto.name,
         price: producto.price,
@@ -187,12 +188,10 @@ export default {
         branch: producto.branch,
         model: producto.model ? producto.model : '',
         category: producto.category,
-        important: producto.important,
         description: producto.description,
         subcategory: producto.subcategory,
         tag: producto.tag,
         ref: producto.ref,
-        ctd: producto.ctd,
         createdAt: producto.createdAt
       };
       this.$store.commit("addItem", item);

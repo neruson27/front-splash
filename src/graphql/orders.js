@@ -110,8 +110,6 @@ export const CREATE_ORDER = gql`
           name
         }
         ref
-        ctd
-        important
         createdAt
       }
       price

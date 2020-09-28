@@ -8,9 +8,11 @@ export const ShoppingCartModule = {
       state.cartKeys = keys;
     },
     addItem(state, newItem) {
+      console.log(newItem.name)
       let found = -1;
       for (const cartIndex in state.cartItems) {
         const item = state.cartItems[cartIndex];
+        console.log(item)
         let allMatch = true;
         for (const keyIndex in state.cartKeys) {
           const keyValue = state.cartKeys[keyIndex];

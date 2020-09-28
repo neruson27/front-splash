@@ -22,38 +22,37 @@
           <div class="row">
             <div class="col-12 row">
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/logo_facebook_blanco.svg" height="30px" width="30px" ></q-img>
-              <span class="q-pt-sm">@CentroMedicoIncolger</span>
+              <span class="q-pt-sm">@splash_colombia</span>
             </div>
             <div class="col-12 row">
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/logo_instagram_blanco.svg" height="30px" width="30px" ></q-img>
-              <span class="q-pt-sm">@CentroMedicoIncolger</span>
+              <span class="q-pt-sm">@splashcolombiap</span>
             </div>
             <div class="col-12 row">
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/logo_servicio_cliente_blanco.svg" height="30px" width="30px" ></q-img>
-              <span class="q-pt-sm">Servicio al cliente</span>
+              <a href="tel:+573013310597" class="q-pt-sm text-black" style="text-decoration: none">Servicio al cliente</a>
             </div>
-            <span class="col-12 q-mt-lg">+57 313 834 8673</span>
+            <span class="col-12 q-mt-lg">+57 301 331 0597</span>
             <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-xs-5 row justify-around">
-              <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573138348673?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
-              <q-btn class="col-5" flat rounded type="a" href="tel:+573138348673" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
+              <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573013310597?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
+              <q-btn class="col-5" flat rounded type="a" href="tel:+573013310597" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
             </div>
-            <span class="col-12 q-mt-sm">+57 318 717 7955</span>
+            <span class="col-12 q-mt-sm">+57 301 659 0477</span>
             <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-xs-5 row justify-around">
-              <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573187177955?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
-              <q-btn class="col-5" flat rounded type="a" href="tel:+573187177955" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
+              <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573016590477?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
+              <q-btn class="col-5" flat rounded type="a" href="tel:+573016590477" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
             </div>
             <div class="col-12 row q-mt-lg">
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/marcador_gris.svg" height="30px" width="30px"></q-img>
-              <span class="q-pt-sm">Cr 38 # 9-45 C.C Bahia</span>
+              <span class="q-pt-sm">Calle 33#26-50 barrio - Antonia Santos</span>
             </div>
             <div class="col-12 q-mb-sm">
               <q-img src="/statics/icons/mail_gris.svg" height="30px" width="30px"></q-img>
-              <q-btn no-caps rounded flat class="col-12" type="a" href="mailto:comercial@splash.com" label="comercial@splash.com"/>
+              <q-btn no-caps rounded flat class="col-12" type="a" href="mailto:comercial@perfumesysplash.com" label="comercial@perfumesysplash.com"/>
             </div>
-            </q-btn>
             <div class="col-12 row">
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/mail_col.svg" height="30px" width="30px"></q-img>
-              <span class="q-pt-sm">Bogotá - Colombia</span>
+              <span class="q-pt-sm">Bucaramanga - Colombia</span>
             </div>
           </div>
         </div>
@@ -86,8 +85,8 @@ export default {
       mensaje: "",
       accessToken: "pk.eyJ1IjoibmVydXNvbiIsImEiOiJja2Rnc2o1M3YwOXlrMnJscm9vNDdybzh2In0.Dfgt6caD-x6nMRCSo8uuqw",
       mapStyle: "mapbox://styles/mapbox/streets-v11",
-      markerCoordinates: [-74.102618, 4.616300],
-      center: [4.616300, -74.102618]
+      markerCoordinates: [-73.1184531, 7.1236222], //7.1236222,-73.1184531
+      center: [7.1236222, -73.1184531]
     };
   },
 };

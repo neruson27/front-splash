@@ -7,7 +7,7 @@
       <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">
         <div class="row">
           <div class="col-lg-5 col-xl-5 col-md-5 col-sm-12 col-xs-12 self-center">
-            <q-img src="/statics/img/logo_1.svg" contain style="width: 300px; height: 180px;" />
+            <q-img src="/statics/img/logo_1.svg" contain style="width: 280px; height: 180px;" />
           </div>
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12 self-center">
             <div class="row justify-center text-left">
@@ -19,7 +19,7 @@
                   icon="mdi-facebook-box"
                   size="md"
                   flat
-                  label="@CentroMedicoInColger"
+                  label="@splash_colombia"
                 ></q-btn>
               </div>
               <div class="col-12">
@@ -30,7 +30,7 @@
                   icon="mdi-instagram"
                   size="md"
                   flat
-                  label="@CentroMedicoInColger"
+                  label="@splashcolombiap"
                 ></q-btn>
               </div>
               <div class="col-12">
@@ -42,6 +42,8 @@
                   size="md"
                   flat
                   label="Servicio al cliente"
+                  type="a"
+                  href="tel:+573013310597"
                 ></q-btn>
               </div>
               <div class="col-12 q-ma-sm q-ml-xl q-mt-md">
@@ -65,15 +67,17 @@
                   color="white"
                   icon="mdi-google-maps"
                   flat
-                  label="Cr 38 # 9-45 C.C Bahia"
-                ></q-btn>
+                  label="Calle 33#26-50 barrio..."
+                >
+                <q-tooltip content-class="bg-gris">Calle 33#26-50 barrio - Antonia Santos</q-tooltip>
+                </q-btn>
                 <q-btn
                   dark
                   no-caps
                   color="white"
                   icon="mdi-map"
                   flat
-                  label="Bogota - Colombia"
+                  label="Bucaramanga - Colombia"
                 ></q-btn>
                 <q-btn
                   dark
@@ -81,9 +85,9 @@
                   color="white"
                   icon="mdi-whatsapp"
                   flat
-                  label="+57 313 8348673"
+                  label="+57 301 3310597"
                   type="a"
-                  href="https://wa.me/3138348673"
+                  href="https://wa.me/573013310597"
                 ></q-btn>
                 <q-btn
                   dark
@@ -91,7 +95,9 @@
                   color="white"
                   icon="mdi-phone-settings-outline"
                   flat
-                  label="+57 310 206 6376"
+                  label="+57 301 3310597"
+                  type="a"
+                  href="tel:+573013310597"
                 ></q-btn>
                 <q-btn
                   dark
@@ -99,10 +105,12 @@
                   color="white"
                   icon="mdi-email"
                   flat
-                  label="comercial@splash.com"
+                  label="comercial@perfumesy..."
                   type="a"
-                  href="mailto:comercial@splash.com"
-                ></q-btn>
+                  href="mailto:comercial@perfumesysplash.com"
+                >
+                <q-tooltip content-class="bg-gris">comercial@perfumesysplash.com</q-tooltip>
+                </q-btn>
               </div>
             </div>
             <div class="row q-ml-md q-mt-xs q-mb-sm">

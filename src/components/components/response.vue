@@ -1,6 +1,45 @@
 <template>
   <div class="row justify-center q-py-lg q-my-lg">
-    <p class="text-h4">{{response ? 'Compra Realizada con exito!' : 'Error!'}}</p>
+    <!-- <p class="text-h4">{{response ? 'Compra Realizada con exito!' : 'Error!'}}</p> -->
+    <div class="col-10 text-center">
+      <span v-if="response"><q-icon size="100px" name="mdi-check-circle-outline" color="positive"></q-icon> <b class="text-h6">Transacción Aprobada</b></span>
+      <span v-else><q-icon size="100px" name="mdi-close-circle-outline" color="negative"></q-icon> <b class="text-h6">Transacción Rechazada</b></span>
+    </div>
+    <div class="col-8 row justify-start">
+      <div class="col-10">
+        <span class="text-bold text-h6" v-if="response">Orden Numero 00001</span>
+        <p class="q-mt-sm">
+          <span class="text-h6">a nombre de:</span><br/>
+          <span>{{checkout.name}}</span><br/>
+          <span>{{checkout.dni}}</span><br/>
+          <span>{{checkout.tlf}}</span><br/>
+          <span>{{checkout.dir}}</span><br/>
+          <span>{{email}}</span><br/>
+          <p class="q-mb-none" style=""><b>Por valor de:</b></p>
+          <span class="text-h6"><b>{{'$ '}}{{format(total)}}</b></span>
+        </p>
+      </div>
+    </div>
+    <div class="col-8 row justify-center text-center" v-if="response">
+      <div>
+        <q-icon size="100px" color="positive" name="mdi-truck-fast-outline"></q-icon>
+      </div>
+      <div class="q-mt-md q-ml-sm">
+        <p class="q-mb-none text-h6">Gracias por tu compra</p>
+        <p class="q-mt-none text-h6">Tu envió va en camino! </p>
+      </div>
+    </div>
+    <div class="col-8 row justify-center text-center" v-else>
+      <div>
+        <q-icon size="100px" name="mdi-alert-circle" color="negative"></q-icon>
+      </div>
+      <div class="text-justify">
+        <p class="q-mb-none text-h6">Tu transacción ha sido rechazada </p>
+        <p class="q-mb-none text-h6">Intentalo nuevamente! </p>
+        <p class="q-mb-none text-h6">Si el problema persiste comunícate con tu entidad bancaria </p>
+      </div>
+    </div>
+    <p class="col-8 q-mt-md" v-if="response">Hemos enviado un correo electrónico con esta información. </p>
   </div>
 </template>
 
@@ -11,6 +50,7 @@
     data() {
       return {
         products: (this.products = this.$store.getters.cart),
+        checkout: (this.checkout = this.$store.state.checkout),
         response: '',
       };
     },
@@ -35,6 +75,7 @@
         let data = {
           ref_payco: this.response,
           products: this.products,
+          checkout: this.checkout,
           price: this.total,
         };
         this.$apollo
@@ -47,11 +88,19 @@
           .then(response => {
             console.log(response);
             this.$store.commit("empty")
-            setTimeout(this.$router.push("/"), 30000)
+            this.$store.commit("emptyCheckout")
           })
           .catch(err => {
             console.log("hubo un error: ", err);
           });
+      },
+      format(input) {
+        let num = input
+        if (!isNaN(num)) {
+          num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+          num = num.split('').reverse().join('').replace(/^[\.]/,'');
+          return num;
+        }
       },
     }
   }
