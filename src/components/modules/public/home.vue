@@ -116,7 +116,7 @@ export default {
     };
   },
   created() {
-    this.$store.commit("cartKeys", this.cartKeys);
+    // this.$store.commit("cartKeys", this.cartKeys);
     this.allProducts();
     this.allSlides()
   },

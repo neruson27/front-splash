@@ -35,6 +35,7 @@ export default new Vuex.Store({
       concept: '',
       total: '',
       tlf: '',
+      city: '',
       dir: '',
       email: '',
     }
@@ -59,6 +60,7 @@ export default new Vuex.Store({
         concept: '',
         total: '',
         tlf: '',
+        city: '',
         dir: '',
         email: ''
       }

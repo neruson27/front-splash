@@ -56,18 +56,23 @@
         <q-list bordered class="row justify-center q-py-lg col-11 bg-white rounded-borders">
           <q-input hide-bottom-space v-model="name" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm" label="Nombre o Razon Social"></q-input>
           <q-input hide-bottom-space v-model="dni" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5" label="C.C., Nit., Pasaporte u Otro"></q-input>
-          <q-input hide-bottom-space v-model="concept" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm q-mr-sm" label="Concepto"></q-input>
+          <q-field outlined class="col-5 q-mt-sm q-mr-sm" label="Concepto" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{concept}}</div>
+            </template>
+          </q-field>
           <q-field outlined class="col-5 q-mt-sm" label="Valor a pagar" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0"><span class="text-bold">{{'$ '}}</span>{{format(total)}}</div>
             </template>
           </q-field>
-          <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Teléfono"></q-input>
+          <q-input hide-bottom-space v-model="city" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Ciudad"></q-input>
           <q-input hide-bottom-space v-model="dir" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Dirección"></q-input>
-          <q-input hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Correo"></q-input>
-          <div class="col-5 row q-mt-md">
-            <!-- <q-btn style="height: 35px" class="col-6 q-mr-sm" no-caps color="whatsapp" label="Pedir por whatsapp" icon-right="img:/statics/img/whatsapp.svg"></q-btn> -->
-            <form class="col-5" ref="myform" @click="saveCheckout()"></form>
+          <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Teléfono"></q-input>
+          <q-input hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Correo"></q-input>
+          <div class="col-12 row q-mt-md justify-end">
+            <!-- <q-btn style="height: 35px" class="col-3 q-mr-sm" no-caps color="whatsapp" label="Pedir por whatsapp" icon-right="img:/statics/img/whatsapp.svg"></q-btn> -->
+            <form class="col-3 q-mr-sm" ref="myform" @click="saveCheckout()"></form>
           </div>
         </q-list>
       </q-card-section>
@@ -95,28 +100,22 @@
         products: (this.products = this.$store.getters.cart),
         name: '',
         dni: '',
-        concept: '',
         tlf: '',
         dir: '',
         email: '',
+        city: '',
         config: config
       };
     },
     mounted() {
-      console.log(this.products)
       let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
-      let description = ''
-      for (let item of this.products) {
-        description = `${item.name} [Ctd: ${item.quantity}] ` + description
-      }
-      console.log(description)
       let foo = document.createElement('script');    
       foo.setAttribute("src","https://checkout.epayco.co/checkout.js")
       foo.setAttribute("class","epayco-button")
       foo.setAttribute("data-epayco-key","3100b99d240564dafc871eda6facf6f0")
       foo.setAttribute("data-epayco-amount", this.total)
       foo.setAttribute("data-epayco-name", payconame)
-      foo.setAttribute("data-epayco-description", description)
+      foo.setAttribute("data-epayco-description", this.concept)
       foo.setAttribute("data-epayco-currency","cop")
       foo.setAttribute("data-epayco-country","co")
       foo.setAttribute("data-epayco-test","true")
@@ -125,6 +124,14 @@
       this.$refs.myform.appendChild(foo);
     },
     computed: {
+      concept() {
+        let products = this.products
+        let description
+        for (let item of products) {
+          description = `${item.name} [Ctd: ${item.quantity}] ` + (description ? description : '')
+        }
+        return description
+      },
       total() {
         return this.products.reduce((total, p) => {
           return total + p.price * p.quantity;
@@ -172,6 +179,7 @@
           total: this.format(this.total),
           concept: this.concept,
           tlf: this.tlf,
+          city: this.city,
           dir: this.dir,
           email: this.email,
         }

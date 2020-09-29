@@ -13,6 +13,7 @@
           <span>{{checkout.name}}</span><br/>
           <span>{{checkout.dni}}</span><br/>
           <span>{{checkout.tlf}}</span><br/>
+          <span>{{checkout.city}}</span><br/>
           <span>{{checkout.dir}}</span><br/>
           <span>{{email}}</span><br/>
           <p class="q-mb-none" style=""><b>Por valor de:</b></p>
