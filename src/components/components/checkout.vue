@@ -5,14 +5,14 @@
           <div class="text-h5 q-mt-sm q-mb-lg col-12">Resumen de la compra</div>
           <q-list bordered class="col-11 bg-white rounded-borders">
             <q-item class="row justify-between" v-for="(product,index) in products" :key="index">
-              <q-card-section class="col-6">
+              <q-card-section class="col-6 row">
                 <q-img
-                  class="rounded-borders q-mr-lg"
+                  class="rounded-borders q-mr-lg col-6"
                   :src="product.highlight ? config.api.url + product.highlight : config.api.url + product.image[0]"
                   width="100px"
                   height="100px"
                 />
-                <span><b>{{product.name}}</b> - {{product.branch ? product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
+                <span class="col-5 q-mt-lg"><b>{{product.name}}</b> {{product.branch ? ' - ' + product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
               </q-card-section>
 
               <q-item-section class="col-6">
