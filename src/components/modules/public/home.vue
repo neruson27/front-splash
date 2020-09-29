@@ -185,7 +185,6 @@ export default {
         price: producto.price,
         highlight: producto.highlight,
         image: producto.image,
-        branch: producto.branch,
         model: producto.model ? producto.model : '',
         category: producto.category,
         description: producto.description,

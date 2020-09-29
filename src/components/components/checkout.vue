@@ -148,6 +148,7 @@
         let item = {
           name: producto.name,
           price: producto.price,
+          highlight: producto.highlight,
           image: producto.image,
           model: producto.model ? producto.model : '',
           category: producto.category,
