@@ -7,7 +7,7 @@
     </div>
     <div class="col-8 row justify-start">
       <div class="col-10">
-        <span class="text-bold text-h6" v-if="response">Orden Numero 00001</span>
+        <span class="text-bold text-h6" v-if="response">Orden Numero {{numorder}}</span>
         <p class="q-mt-sm">
           <span class="text-h6">a nombre de:</span><br/>
           <span>{{checkout.name}}</span><br/>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import { CREATE_ORDER } from "@/graphql/orders";
+  import { CREATE_ORDER, NUM_ORDER } from "@/graphql/orders";
   export default {
     name: "checkout",
     data() {
@@ -53,12 +53,16 @@
         products: (this.products = this.$store.getters.cart),
         checkout: (this.checkout = this.$store.state.checkout),
         response: '',
+        numorder: 0
       };
     },
-    created() {
+    async created() {
       console.log(this.$route.query.ref_payco)
+      await this.numOrder()
       this.response = this.$route.query.ref_payco
-      setTimeout(this.createOrder(), 1000)
+      if(this.response) {
+        setTimeout(this.createOrder(), 1000)
+      }
     },
     computed: {
       total() {
@@ -94,6 +98,20 @@
           .catch(err => {
             console.log("hubo un error: ", err);
           });
+      },
+      numOrder() {
+        return this.$apollo
+          .query({
+            query: NUM_ORDER,
+            fetchPolicy: "network-only"
+          })
+          .then(res => {
+            console.log(res)
+            this.numorder = '0000' + (res.data.NumOrders + 1)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       },
       format(input) {
         let num = input

@@ -80,6 +80,12 @@ export const ONE_ORDER_QUERY = gql`
   }
 `;
 
+export const NUM_ORDER = gql`
+  query NumOrders {
+    NumOrders
+  }
+`
+
 export const CREATE_ORDER = gql`
   mutation CreateOrder($data: OrdersInput!) {
     CreateOrder(data: $data) {

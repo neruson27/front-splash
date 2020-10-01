@@ -62,8 +62,8 @@
               <th class="text-left" style="background-color:#f7f8fb"></th>
               <th class="text-right">Nombre</th>
               <th class="text-right">Descripcion</th>
-              <th class="text-right">Marca</th>
-              <th class="text-right">Modelo</th>
+              <!-- <th class="text-right">Marca</th> -->
+              <!-- <th class="text-right">Modelo</th> -->
               <th class="text-right">Categoria</th>
               <th class="text-right">Subcategoria</th>
               <th class="text-right">Ref</th>
@@ -84,8 +84,8 @@
               </td>
               <td class="text-right">{{producto.name}}</td>
               <td class="text-right">{{producto.description}}</td>
-              <td class="text-right">{{producto.branch.name}}</td>
-              <td class="text-right">{{producto.model ? producto.model : ''}}</td>
+              <!-- <td class="text-right">{{producto.branch ? producto.branch.name : ''}}</td> -->
+              <!-- <td class="text-right">{{producto.model ? producto.model : ''}}</td> -->
               <td class="text-right">{{producto.category.name}}</td>
               <td class="text-right">{{producto.subcategory.name}}</td>
               <td class="text-right">{{producto.ref}}</td>
@@ -176,7 +176,7 @@ export default {
   computed: {
     pagesNumber() {
       return Math.ceil(this.orders.length / this.pagination.rowsPerPage);
-    }
+    },
   },
   methods: {
     allOrders() {
