@@ -156,7 +156,7 @@ export default {
           name: "price",
           label: "Valor:",
           field: "price",
-          format: val => `${val}$`
+          format: val => `$ ${this.format(val)}`
         }
       ],
       initialPagination: {
@@ -263,7 +263,15 @@ export default {
         .catch(err => {
           console.log("hubo un error: ", err);
         });
-    }
+    },
+    format(input) {
+      let num = input
+      if (!isNaN(num)) {
+        num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+        num = num.split('').reverse().join('').replace(/^[\.]/,'');
+        return num;
+      }
+    },
   }
 };
 </script>

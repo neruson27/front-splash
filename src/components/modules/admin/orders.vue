@@ -89,7 +89,7 @@
               <td class="text-right">{{producto.category.name}}</td>
               <td class="text-right">{{producto.subcategory.name}}</td>
               <td class="text-right">{{producto.ref}}</td>
-              <td class="text-right">{{producto.price}}</td>
+              <td class="text-right">$ {{format(producto.price)}}</td>
               <td class="text-right">{{producto.quantity}}</td>
             </tr>
           </tbody>
@@ -97,7 +97,7 @@
         <q-card-actions class="row justify-between q-pt-md q-pb-sm" style="background-color:#f7f8fb">
           <span class="col-3 text-left">{{new Date(detalle.createdAt).toString().slice(0,24)}}</span>
           <q-btn class="col-2" flat label="Cerrar" color="negative" v-close-popup />
-          <span class="col-3 text-right">Total: $ {{detalle.price}} COP</span>
+          <span class="col-3 text-right">Total: $ {{format(detalle.price)}} COP</span>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -155,7 +155,7 @@ export default {
           name: "price",
           label: "Valor:",
           field: "price",
-          format: val => `$ ${val}`
+          format: val => `$ ${this.format(val)}`
         }
       ],
       updating: false
@@ -229,6 +229,14 @@ export default {
         .catch(err => {
           console.log("error CATEGORY: ", err);
         });
+    },
+    format(input) {
+      let num = input
+      if (!isNaN(num)) {
+        num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+        num = num.split('').reverse().join('').replace(/^[\.]/,'');
+        return num;
+      }
     },
     handler(props) {
       this.ordenDetalle = true;
