@@ -35,9 +35,7 @@ export const ALL_ORDER_QUERY = gql`
           name
         }
         ref
-        ctd
         quantity
-        important
         createdAt
       }
       price
@@ -73,8 +71,6 @@ export const ONE_ORDER_QUERY = gql`
           name
         }
         ref
-        ctd
-        important
         createdAt
       }
       price
@@ -145,8 +141,6 @@ export const ORDER_STATUS_UPDATE = gql`
           name
         }
         ref
-        ctd
-        important
         createdAt
       }
       price
