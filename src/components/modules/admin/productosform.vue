@@ -165,7 +165,7 @@
           accept=".jpg, .png, .svg"
           clearable
           class="col-6 q-px-sm"
-          :rules="[val => !!val || 'Esto es requerido!']"
+          :rules="updating == true ? '' : [val => !!val || 'Esto es requerido!']"
           hide-bottom-space
         />
         <q-scroll-area horizontal style="height: 200px;" class="col-12 q-mt-sm">
@@ -280,9 +280,10 @@ export default {
       payMask: ''
     };
   },
-  mounted() {
+  created() {
     this.categories.push("Añadir");
-    this.branchs.push("Añadir");
+  },
+  mounted() {
     if (this.updating) {
       this.id = this.product._id;
       this.name = this.product.name;
@@ -460,7 +461,7 @@ export default {
     updatingProducto() {
       const data = {
         name: this.name,
-        branch: this.branch,
+        branch: !this.branch ? {} : this.branch,
         model: this.model,
         subcategory: this.subcategory,
         tags: this.tag,

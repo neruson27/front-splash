@@ -115,7 +115,7 @@ export default {
       branchExist: true,
     };
   },
-  created() {
+  async created() {
     // this.$store.commit("cartKeys", this.cartKeys);
     this.allProducts();
     this.allSlides()

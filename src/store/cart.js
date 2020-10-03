@@ -1,6 +1,6 @@
 export const ShoppingCartModule = {
   state: {
-    cartKeys: [],
+    cartKeys: ["name","store"],
     cartItems: []
   },
   mutations: {
@@ -15,6 +15,7 @@ export const ShoppingCartModule = {
         console.log(item)
         let allMatch = true;
         for (const keyIndex in state.cartKeys) {
+          console.log(item)
           const keyValue = state.cartKeys[keyIndex];
           if (item[keyValue] != newItem[keyValue]) {
             allMatch = false;
