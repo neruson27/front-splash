@@ -34,7 +34,8 @@
     "subscriptions-transport-ws": "^0.9.16",
     "vue-i18n": "^8.0.0",
     "vue-mapbox": "^0.4.1",
-    "vuex-persist": "^2.3.0"
+    "vuex-persist": "^2.3.0",
+    "vuex-persistedstate": "^3.1.0"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",

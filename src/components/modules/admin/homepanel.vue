@@ -30,7 +30,7 @@
         </q-card-section>
       </q-card>
     </div>
-    <div @click="$router.push('/homeAdmin?tab=marcas')" class="col-lg-3 col-xl-3 col-md-3 col-sm-12 q-pa-md">
+    <!-- <div @click="$router.push('/homeAdmin?tab=marcas')" class="col-lg-3 col-xl-3 col-md-3 col-sm-12 q-pa-md">
       <q-card bordered class="my-card">
         <q-card-section horizontal>
           <q-card-section class="q-pa-md">
@@ -44,7 +44,7 @@
           </q-card-section>
         </q-card-section>
       </q-card>
-    </div>
+    </div> -->
     <div @click="$router.push('/homeAdmin?tab=etiquetas')" class="col-lg-3 col-xl-3 col-md-3 col-sm-12 q-pa-md">
       <q-card bordered class="my-card">
         <q-card-section horizontal>
@@ -171,7 +171,7 @@ export default {
     this.allCategories();
     this.allSubcategories();
     this.allTags();
-    this.allBranchs();
+    // this.allBranchs();
     this.allOrders();
   },
   methods: {

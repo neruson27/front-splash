@@ -1,14 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import config from "@/config";
-import VuexPersistence from "vuex-persist";
+import createPersistedState from "vuex-persistedstate";
 import { ShoppingCartModule } from "./cart";
 
 Vue.use(Vuex);
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage
-});
+
+
 
 let userVoid = {
   id: "",
@@ -74,5 +73,5 @@ export default new Vuex.Store({
       return state.user.isAuthenticated
     } 
   },
-  plugins: [vuexLocal.plugin]
+  plugins: [createPersistedState()],
 });
