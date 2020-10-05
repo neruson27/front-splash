@@ -69,7 +69,7 @@
           <q-input hide-bottom-space v-model="city" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Ciudad"></q-input>
           <q-input hide-bottom-space v-model="dir" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Dirección"></q-input>
           <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Teléfono"></q-input>
-          <q-input hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Correo"></q-input>
+          <q-input :debounce="400" hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Correo"></q-input>
           <div class="col-12 row q-mt-md justify-end">
             <!-- <q-btn style="height: 35px" class="col-3 q-mr-sm" no-caps color="whatsapp" label="Pedir por whatsapp" icon-right="img:/statics/img/whatsapp.svg"></q-btn> -->
             <form class="col-3 q-mr-sm" ref="myform" @click="saveCheckout()"></form>
@@ -93,6 +93,7 @@
 
 <script>
   import config from "@/config"
+  import { sessionToken } from "@/utils/token-generator"
   export default {
     name: "checkout",
     data() {
@@ -104,24 +105,12 @@
         dir: '',
         email: '',
         city: '',
+        response: '',
         config: config
       };
     },
     mounted() {
-      let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
-      let foo = document.createElement('script');    
-      foo.setAttribute("src","https://checkout.epayco.co/checkout.js")
-      foo.setAttribute("class","epayco-button")
-      foo.setAttribute("data-epayco-key","3100b99d240564dafc871eda6facf6f0")
-      foo.setAttribute("data-epayco-amount", this.total)
-      foo.setAttribute("data-epayco-name", payconame)
-      foo.setAttribute("data-epayco-description", this.concept)
-      foo.setAttribute("data-epayco-currency","cop")
-      foo.setAttribute("data-epayco-country","co")
-      foo.setAttribute("data-epayco-test","true")
-      foo.setAttribute("data-epayco-external","true")
-      foo.setAttribute("data-epayco-response","https://perfumesysplash.com/#/response")
-      this.$refs.myform.appendChild(foo);
+      
     },
     computed: {
       concept() {
@@ -141,6 +130,33 @@
         let cart = this.$store.getters.cart;
         return cart.reduce((accum, item) => accum + item.quantity, 0);
       },
+    },
+    watch: {
+      async email(newValue) {
+        if (this.name && this.dni && this.city && this.tlf && this.dir && newValue && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+          if(this.$refs.myform.hasChildNodes()) {
+            if(this.$refs.myform.childNodes[0]) {
+              this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+            }
+            if(this.$refs.myform.childNodes[1]) {
+              this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
+            }
+            if(this.$refs.myform.childNodes[2]) {
+              this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
+            }
+          }
+          let token = await this.saveCheckout()
+          this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          this.spawnButtom()
+        } else {
+          if(this.$refs.myform.hasChildNodes()) {
+            if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
+            if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
+          }
+        }
+        // if(this.name && this.dni && this.tlf && this.dir && this.city && newValue) {
+        // }
+      }
     },
     methods: {
       format(input) {
@@ -172,7 +188,6 @@
         });
       },
       saveCheckout() {
-        console.log('hola')
         let form = {
           name: this.name,
           dni: this.dni,
@@ -184,6 +199,26 @@
           email: this.email,
         }
         this.$store.commit("setCheckout", form);
+        return sessionToken(this.products, form);
+      },
+      spawnButtom(){
+        let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
+        if(this.$refs.myform.childNodes[0]) {
+          this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+        }  
+        let foo = document.createElement('script');  
+        foo.setAttribute("src","https://checkout.epayco.co/checkout.js")
+        foo.setAttribute("class","epayco-button")
+        foo.setAttribute("data-epayco-key","3100b99d240564dafc871eda6facf6f0")
+        foo.setAttribute("data-epayco-amount", this.total)
+        foo.setAttribute("data-epayco-name", payconame)
+        foo.setAttribute("data-epayco-description", this.concept)
+        foo.setAttribute("data-epayco-currency","cop")
+        foo.setAttribute("data-epayco-country","co")
+        foo.setAttribute("data-epayco-test","true")
+        foo.setAttribute("data-epayco-external","true")
+        foo.setAttribute("data-epayco-response",this.response)
+        this.$refs.myform.appendChild(foo);
       },
       del(product, quantity = 1) {
         this.$store.commit("delItem", {
