@@ -169,7 +169,7 @@
               this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
             }
           let token = await this.saveCheckout()
-          this.response = `${this.config.api.url}/#/response?jwt=${token}&`
+          this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
           }
           this.btnReady()
         } else {
