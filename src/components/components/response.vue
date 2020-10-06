@@ -8,17 +8,18 @@
     <div class="col-8 row justify-start">
       <div class="col-10">
         <span class="text-bold text-h6" v-if="response">Orden Numero {{numorder}}</span>
-        <p class="q-mt-sm">
+        <div class="q-mt-sm">
           <span class="text-h6">a nombre de:</span><br/>
-          <span>{{checkout.name}}</span><br/>
-          <span>{{checkout.dni}}</span><br/>
-          <span>{{checkout.tlf}}</span><br/>
-          <span>{{checkout.city}}</span><br/>
-          <span>{{checkout.dir}}</span><br/>
-          <span>{{email}}</span><br/>
+          <span>{{this.checkout.name}}</span><br/>
+          <span>{{this.checkout.dni}}</span><br/>
+          <span>{{this.checkout.tlf}}</span><br/>
+          <span>{{this.checkout.city}}</span><br/>
+          <span>{{this.checkout.dir}}</span><br/>
+          <span>{{this.checkout.email}}</span><br/>
+
           <p class="q-mb-none" style=""><b>Por valor de:</b></p>
           <span class="text-h6"><b>{{'$ '}}{{format(total)}}</b></span>
-        </p>
+        </div>
       </div>
     </div>
     <div class="col-8 row justify-center text-center" v-if="response">
@@ -46,18 +47,24 @@
 
 <script>
   import { CREATE_ORDER, NUM_ORDER } from "@/graphql/orders";
+  import { verifyToken } from '@/utils/token-generator'
   export default {
     name: "checkout",
     data() {
       return {
-        products: (this.products = this.$store.getters.cart),
-        checkout: (this.checkout = this.$store.state.checkout),
+        products: [],
+        checkout: {},
         response: '',
         numorder: 0
       };
     },
     async created() {
       console.log(this.$route.query.ref_payco)
+      console.log(this.$route.query.jwt)
+      let { data } = await verifyToken(this.$route.query.jwt)
+      console.log(data)
+      this.products = data.product
+      this.checkout = data.checkout
       await this.numOrder()
       this.response = this.$route.query.ref_payco
       if(this.response) {

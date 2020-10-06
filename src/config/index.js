@@ -19,6 +19,7 @@ export default {
       json: { "Content-Type": "application/json" }
     }
   },
+  secret: '3sp3r0ofunc1o0n3e3st4c0s4',
   api: {
     url: `${urls[env]}`
   }

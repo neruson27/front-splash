@@ -312,7 +312,7 @@ export const DELETE_PRODUCT_MUTATION = gql`
 `;
 
 export const PRODUCT_UPDATE = gql`
-  mutation UpdateProduct($productId: ID!, $data: ProductInput!) {
+  mutation UpdateProduct($productId: ID!, $data: ProductUpdateInput!) {
     UpdateProduct(id: $productId, data: $data) {
       _id
       name
