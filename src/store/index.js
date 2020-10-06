@@ -6,10 +6,6 @@ import { ShoppingCartModule } from "./cart";
 
 Vue.use(Vuex);
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage
-});
-
 let userVoid = {
   id: "",
   fullName: "",
