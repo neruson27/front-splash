@@ -319,11 +319,13 @@
         this.$store.commit("setCheckout", form);
         return sessionToken(this.products, form);
       },
-      btnReady(){
+      async btnReady(){
         let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
         if(this.$refs.myform.childNodes[0]) {
           this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
         }  
+        let token = await this.saveCheckout()
+        this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
         let foo = document.createElement('script');  
         foo.setAttribute("src","https://checkout.epayco.co/checkout.js")
         foo.setAttribute("class","epayco-button")
