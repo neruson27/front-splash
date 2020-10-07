@@ -146,6 +146,10 @@
             }
           let token = await this.saveCheckout()
           this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          console.log('Aqui va el token')
+          console.log(token)
+          console.log('aqui va la response')
+          console.log(this.response)
           }
           this.btnReady()
         } else {
@@ -170,6 +174,10 @@
             }
           let token = await this.saveCheckout()
           this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          console.log('Aqui va el token')
+          console.log(token)
+          console.log('aqui va la response')
+          console.log(this.response)
           }
           this.btnReady()
         } else {
@@ -193,6 +201,10 @@
             }
           let token = await this.saveCheckout()
           this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          console.log('Aqui va el token')
+          console.log(token)
+          console.log('aqui va la response')
+          console.log(this.response)
           }
           this.btnReady()
         } else {
@@ -217,6 +229,10 @@
             }
           let token = await this.saveCheckout()
           this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          console.log('Aqui va el token')
+          console.log(token)
+          console.log('aqui va la response')
+          console.log(this.response)
           }
           this.btnReady()
         } else {
@@ -241,6 +257,10 @@
             }
           let token = await this.saveCheckout()
           this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          console.log('Aqui va el token')
+          console.log(token)
+          console.log('aqui va la response')
+          console.log(this.response)
           }
           this.btnReady()
         } else {
@@ -265,6 +285,10 @@
             }
           let token = await this.saveCheckout()
           this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+          console.log('Aqui va el token')
+          console.log(token)
+          console.log('aqui va la response')
+          console.log(this.response)
           }
           this.btnReady()
         } else {
@@ -326,6 +350,10 @@
         }  
         let token = await this.saveCheckout()
         this.response = `https://perfumesysplash.com/#/response?jwt=${token}&`
+        console.log('Aqui va el token')
+        console.log(token)
+        console.log('aqui va la response')
+        console.log(this.response)
         let foo = document.createElement('script');  
         foo.setAttribute("src","https://checkout.epayco.co/checkout.js")
         foo.setAttribute("class","epayco-button")
