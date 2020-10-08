@@ -47,29 +47,24 @@
 
 <script>
   import { CREATE_ORDER, NUM_ORDER } from "@/graphql/orders";
-  import { verifyToken } from '@/utils/token-generator'
   export default {
     name: "checkout",
     data() {
       return {
-        products: [],
-        checkout: {},
+        products: (this.products = this.$store.getters.cart),
+        checkout: (this.checkout = this.$store.state.checkout),
         response: '',
         numorder: 0
       };
     },
     async created() {
-      console.log(this.$route.query.ref_payco)
-      console.log(this.$route.query.jwt)
-      let { data } = await verifyToken(this.$route.query.jwt)
-      console.log(data)
-      this.products = data.product
-      this.checkout = data.checkout
-      await this.numOrder()
+      console.log(this.products)
+      console.log(this.checkout)
       this.response = this.$route.query.ref_payco
-      if(this.response) {
-        setTimeout(this.createOrder(), 1000)
-      }
+      // if(this.response) {
+      //   await this.numOrder()
+      //   setTimeout(this.createOrder(), 1000)
+      // }
     },
     computed: {
       total() {
