@@ -71,6 +71,7 @@ export default new Vuex.Store({
       return state.user.isAuthenticated
     } 
   },
+  strict: process.env.NODE_ENV !== 'production',
   plugins: [createPersistedState({
     storage: {
       getItem: (key) => Cookies.get(key),
