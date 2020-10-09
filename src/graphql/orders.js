@@ -46,8 +46,8 @@ export const ALL_ORDER_QUERY = gql`
 `;
 
 export const ONE_ORDER_QUERY = gql`
-  query OneOrder($id: ID!) {
-    OneOrder(id: $id) {
+  query OneOrder($id: ID, $id_buyer: String) {
+    OneOrder(id: $id, id_buyer:$id_buyer) {
       _id
       ref_payco
       orderNumber
@@ -72,6 +72,16 @@ export const ONE_ORDER_QUERY = gql`
         }
         ref
         createdAt
+      }
+      checkout {
+        name
+        dni
+        total
+        concept
+        tlf
+        city
+        dir
+        email
       }
       price
       status
@@ -122,8 +132,8 @@ export const CREATE_ORDER = gql`
 `;
 
 export const ORDER_STATUS_UPDATE = gql`
-  mutation UpdateOrdersStatus($id: ID!, $status: String) {
-    UpdateOrdersStatus(id: $id, status: $status) {
+  mutation UpdateOrdersStatus($id: ID!, $status: String, $ref: String) {
+    UpdateOrdersStatus(id: $id, status: $status, ref: $ref) {
       _id
       ref_payco
       orderNumber

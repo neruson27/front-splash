@@ -91,7 +91,8 @@
   </div>
 </template>
 
-<script>
+<script>  
+  import { CREATE_ORDER, NUM_ORDER } from "@/graphql/orders";
   import config from "@/config"
   export default {
     name: "checkout",
@@ -304,13 +305,35 @@
           email: this.email,
         }
         this.$store.commit("setCheckout", form);
+
+        let data = {
+          id_buyer: String(this.$store.state.id_buyer),
+          products: this.products,
+          checkout: this.$store.state.checkout,
+          price: this.total,
+        };
+        return this.$apollo
+          .mutate({
+            mutation: CREATE_ORDER,
+            variables: {
+              data
+            }
+          })
+          .then(response => {
+            console.log(response);
+            this.$store.commit("empty")
+            this.$store.commit("emptyCheckout")
+          })
+          .catch(err => {
+            console.log("hubo un error: ", err);
+          });
       },
       async btnReady(){
         let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
         if(this.$refs.myform.childNodes[0]) {
           this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
         }  
-        this.response = `https://perfumesysplash.com/#/response`
+        this.response = `https://perfumesysplash.com/#/response?id_buyer=${this.$store.state.id_buyer}&`
         let foo = document.createElement('script');  
         foo.setAttribute("src","https://checkout.epayco.co/checkout.js")
         foo.setAttribute("class","epayco-button")

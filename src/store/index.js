@@ -19,6 +19,7 @@ export default new Vuex.Store({
     store: ShoppingCartModule
   },
   state: {
+    id_buyer: "",
     user: {
       id: "",
       fullName: "",
@@ -38,6 +39,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    createSessionUserId(state) {
+      state.id_buyer = String(Date.now())
+      console.log(state)
+    },
     setUser(state, user) {
       state.user = user;
     },

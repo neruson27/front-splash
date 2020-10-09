@@ -116,6 +116,7 @@ export default {
     };
   },
   async created() {
+    this.$store.commit('createSessionUserId');
     // this.$store.commit("cartKeys", this.cartKeys);
     this.allProducts();
     this.allSlides()

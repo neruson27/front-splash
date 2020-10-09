@@ -46,50 +46,63 @@
 </template>
 
 <script>
-  import { CREATE_ORDER, NUM_ORDER } from "@/graphql/orders";
+  import { ORDER_STATUS_UPDATE, ONE_ORDER_QUERY, NUM_ORDER } from "@/graphql/orders";
   export default {
     name: "checkout",
     data() {
       return {
-        products: (this.products = this.$store.getters.cart),
-        checkout: (this.checkout = this.$store.state.checkout),
+        products: [],
+        checkout: {},
+        total: 0,
         response: '',
-        numorder: 0
+        numorder: 0,
+        orderId: ''
       };
     },
     async created() {
-      console.log(this.products)
-      console.log(this.checkout)
+      await this.getOrder(this.$route.query.id_buyer)
       this.response = this.$route.query.ref_payco
-      // if(this.response) {
-      //   await this.numOrder()
-      //   setTimeout(this.createOrder(), 1000)
-      // }
+      if(this.response) {
+        await this.numOrder()
+        setTimeout(this.createOrder(), 1000)
+      }
     },
     computed: {
-      total() {
-        return this.products.reduce((total, p) => {
-          return total + p.price * p.quantity;
-        }, 0);
-      },
       numberOfitemsInCart() {
         let cart = this.$store.getters.cart;
         return cart.reduce((accum, item) => accum + item.quantity, 0);
       },
     },
     methods: {
+      getOrder(id_buyer) {
+        this.$apollo
+          .query({
+            query: ONE_ORDER_QUERY,
+            variables: {
+              id_buyer: id_buyer
+            },
+            fetchPolicy: "network-only",
+          })
+          .then( ({data}) => { 
+            console.log(data.OneOrder)
+            this.products = data.OneOrder.products
+            this.checkout = data.OneOrder.checkout
+            this.orderId = data.OneOrder._id
+            this.total = data.OneOrder.price
+          })
+          .catch( err => {
+            console.log(err)
+          })
+      },
       createOrder() {
-        let data = {
-          ref_payco: this.response,
-          products: this.products,
-          checkout: this.checkout,
-          price: this.total,
-        };
+
         this.$apollo
           .mutate({
-            mutation: CREATE_ORDER,
+            mutation: ORDER_STATUS_UPDATE,
             variables: {
-              data
+              id: this.orderId,
+          ref_payco: this.response,
+          status: 'Por Despachar'
             }
           })
           .then(response => {
