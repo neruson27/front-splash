@@ -64,7 +64,7 @@
       this.response = this.$route.query.ref_payco
       if(this.response) {
         await this.numOrder()
-        setTimeout(this.createOrder(), 1000)
+        await this.createOrder()
       }
     },
     computed: {
@@ -95,23 +95,29 @@
           })
       },
       createOrder() {
-
         this.$apollo
           .mutate({
             mutation: ORDER_STATUS_UPDATE,
             variables: {
               id: this.orderId,
-          ref_payco: this.response,
-          status: 'Por Despachar'
+              ref_payco: this.response,
+              status: 'Por Despachar'
             }
           })
           .then(response => {
             console.log(response);
             this.$store.commit("empty")
             this.$store.commit("emptyCheckout")
+            setTimeout(function(){
+              console.log('todo bien')
+            }, 2000)
           })
           .catch(err => {
             console.log("hubo un error: ", err);
+            this.$q.notify({
+              message: "Hubo un error por favor contactar con soporte: " + err.message.split("GraphQL error:"),
+              color: "negative"
+            });
           });
       },
       numOrder() {
