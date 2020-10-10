@@ -75,7 +75,7 @@
     },
     methods: {
       getOrder(id_buyer) {
-        this.$apollo
+        return this.$apollo
           .query({
             query: ONE_ORDER_QUERY,
             variables: {
@@ -89,13 +89,14 @@
             this.checkout = data.OneOrder.checkout
             this.orderId = data.OneOrder._id
             this.total = data.OneOrder.price
+            return this.orderId
           })
           .catch( err => {
             console.log(err)
           })
       },
       createOrder() {
-        this.$apollo
+        return this.$apollo
           .mutate({
             mutation: ORDER_STATUS_UPDATE,
             variables: {
@@ -108,7 +109,7 @@
             console.log(response);
             this.$store.commit("empty")
             this.$store.commit("emptyCheckout")
-            setTimeout(function(){
+            return setTimeout(function(){
               console.log('todo bien')
             }, 2000)
           })
@@ -128,7 +129,7 @@
           })
           .then(res => {
             console.log(res)
-            this.numorder = '0000' + (res.data.NumOrders + 1)
+            return this.numorder = '0000' + (res.data.NumOrders + 1)
           })
           .catch(err => {
             console.log(err)
