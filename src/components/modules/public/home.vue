@@ -182,6 +182,7 @@ export default {
     add(producto) {
       console.log(producto.name)
       let item = {
+        _id: producto._id,
         name: producto.name,
         price: producto.price,
         highlight: producto.highlight,

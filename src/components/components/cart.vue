@@ -100,6 +100,7 @@ export default {
     },
     add(producto) {
       let item = {
+        _id: producto._id,
         name: producto.name,
         price: producto.price,
         highlight: producto.highlight,

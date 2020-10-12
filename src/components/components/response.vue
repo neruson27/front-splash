@@ -62,6 +62,7 @@
     async created() {
       await this.getOrder(this.$route.query.id_buyer)
       this.response = this.$route.query.ref_payco
+      console.log(this.response)
       if(this.response) {
         await this.numOrder()
         await this.createOrder()
@@ -101,7 +102,7 @@
             mutation: ORDER_STATUS_UPDATE,
             variables: {
               id: this.orderId,
-              ref_payco: this.response,
+              ref: this.response,
               status: 'Por Despachar'
             }
           })
@@ -111,7 +112,8 @@
             this.$store.commit("emptyCheckout")
             return setTimeout(function(){
               console.log('todo bien')
-            }, 2000)
+              this.$router.push("/")
+            }, 20000)
           })
           .catch(err => {
             console.log("hubo un error: ", err);
@@ -129,7 +131,7 @@
           })
           .then(res => {
             console.log(res)
-            return this.numorder = '0000' + (res.data.NumOrders + 1)
+            return this.numorder = '0000' + (res.data.NumOrders)
           })
           .catch(err => {
             console.log(err)

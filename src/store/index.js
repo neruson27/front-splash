@@ -77,13 +77,5 @@ export default new Vuex.Store({
     } 
   },
   strict: process.env.NODE_ENV !== 'production',
-  plugins: [createPersistedState({
-    storage: {
-      getItem: (key) => Cookies.get(key),
-      // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-      setItem: (key, value) =>
-        Cookies.set(key, value, { expires: 3, secure: true, sameSite: 'strict' }),
-      removeItem: (key) => Cookies.remove(key),
-    },
-  }),],
+  plugins: [createPersistedState(),],
 });

@@ -275,6 +275,7 @@
       },
       add(producto) {
         let item = {
+          _id: producto._id,
           name: producto.name,
           price: producto.price,
           highlight: producto.highlight,
@@ -304,11 +305,19 @@
           dir: this.dir,
           email: this.email,
         }
+        let productsReduce = []
         this.$store.commit("setCheckout", form);
+
+        this.products.forEach(product => {
+          productsReduce.push({
+            _id: product._id,
+            quantity: product.quantity
+          })
+        });
 
         let data = {
           id_buyer: String(this.$store.state.id_buyer),
-          products: this.products,
+          products: productsReduce,
           checkout: this.$store.state.checkout,
           price: this.total,
         };
