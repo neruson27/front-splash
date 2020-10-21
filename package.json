@@ -13,6 +13,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@dicebear/avatars-male-sprites": "^4.2.5",
     "@mdi/font": "^5.2.45",
     "@quasar/extras": "^1.0.0",
     "apollo-cache-inmemory": "^1.6.6",

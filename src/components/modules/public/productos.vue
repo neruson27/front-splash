@@ -74,59 +74,61 @@
         </div>
       </div>
       <div v-else class="row justify-center">
-        <div class="q-my-lg row" v-if="loader">
-          <q-spinner-gears size="50px" color="header" />
-        </div>
-        <div class="col-11 row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'" v-if="data.length > 0 && loader === false">
-          <q-card
+        <q-inner-loading :showing="loader">
+          <q-spinner-gears size="50px" color="primary" />
+        </q-inner-loading>
+        <q-card flat class="col-11 " v-if="data.length > 0">
+          <q-infinite-scroll class="row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'"  @load="load" :offset="$q.screen.lt.md ? 400 : 280">
+            <q-card
             class="my-card q-my-md q-px-sm col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 justify-center"
             v-for="(producto, index) in data"
             :key="index"
             flat
-          >
-            <q-item :to="{ path: '/detalles', query: { ref: producto.ref }}">
-              <q-img
-                :src="producto.highlight ? config.api.url + producto.highlight : config.api.url + producto.image[0]"
-                height="200px"
-                contain
-              />
-            </q-item>
+            >
+              <q-item :to="{ path: '/detalles', query: { ref: producto.ref }}">
+                <q-img
+                  :src="producto.highlight ? config.api.url + producto.highlight : config.api.url + producto.image[0]"
+                  height="200px"
+                  contain
+                />
+              </q-item>
 
-            <q-card-section class="row justify-center">
-              <div class="text-subtitle1 text-bold col-12" style="color:#4b4b4b;">{{producto.name}}</div>
-              <div
-                style="color:#808080;"
-                class="text-caption text-bold col-12"
-              ><span v-if="producto.branch">{{producto.branch.name}} ></span> {{producto.category.name}}</div>
-              <div style="font-size:10px;color:#808080;" class="col-12 ellipsis">{{producto.description ? producto.description : 'No hay descripcion del producto'}}</div>
-              <div class="text-h5 text-bold col-12" style="color:#4b4b4b;">$ {{format(producto.price)}}</div>
-              <div class="row justify-between col-12">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 q-pa-xs">
-                  <q-btn
-                    :to="{ path: '/detalles', query: { ref: producto.ref }}"
-                    style="font-size: 12px"
-                    class="full-width text-white"
-                    color="header"
-                    no-caps
-                  >
-                    <div class="ellipsis">Ver producto</div>
-                  </q-btn>
+              <q-card-section class="row justify-center">
+                <div class="text-subtitle1 text-bold col-12" style="color:#4b4b4b;">{{producto.name}}</div>
+                <div
+                  style="color:#808080;"
+                  class="text-caption text-bold col-12"
+                ><span v-if="producto.branch">{{producto.branch.name}} ></span> {{producto.category.name}}</div>
+                <div style="font-size:10px;color:#808080;" class="col-12 ellipsis">{{producto.description ? producto.description : 'No hay descripcion del producto'}}</div>
+                <div class="text-h5 text-bold col-12" style="color:#4b4b4b;">$ {{format(producto.price)}}</div>
+                <div class="row justify-between col-12">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 q-pa-xs">
+                    <q-btn
+                      :to="{ path: '/detalles', query: { ref: producto.ref }}"
+                      style="font-size: 12px"
+                      class="full-width text-white"
+                      color="header"
+                      no-caps
+                    >
+                      <div class="ellipsis">Ver producto</div>
+                    </q-btn>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 q-pa-xs">
+                    <q-btn
+                      style="font-size: 12px"
+                      class="full-width text-white"
+                      color="header"
+                      label="Comprar"
+                      no-caps
+                      @click="add(producto)"
+                    />
+                  </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 q-pa-xs">
-                  <q-btn
-                    style="font-size: 12px"
-                    class="full-width text-white"
-                    color="header"
-                    label="Comprar"
-                    no-caps
-                    @click="add(producto)"
-                  />
-                </div>
-              </div>
-            </q-card-section>
-            <q-separator class="q-mt-sm" style="height:1px;background-color:#4b4b4b;" />
+              </q-card-section>
+              <q-separator class="q-mt-sm" style="height:1px;background-color:#4b4b4b;" />
+            </q-card>
+            </q-infinite-scroll>
           </q-card>
-        </div>
         <div class="q-ma-xl" v-else>
           <span>No hay productos disponibles</span>
         </div>
@@ -162,7 +164,9 @@ export default {
       botonBuscar: false,
       mensaje: false,
       categories: [],
-      loader: true
+      loader: true,
+      fin: false,
+      page: 1
     };
   },
   async created() {
@@ -245,19 +249,39 @@ export default {
         });
     },
     allProducts() {
+      let pagination = {
+        page: this.page,
+        limit: 8
+      }
       return this.$apollo
         .query({
           query: PRODUCTOS_QUERY,
+          variables: {
+            pagination: pagination
+          },
           fetchPolicy: "network-only"
         })
         .then(response => {
           console.log(response.data.AllProducts);
-          this.data = Object.assign([], response.data.AllProducts);
+          if(response.data.AllProducts.length === 0) this.fin = true
+          response.data.AllProducts.forEach(producto => {
+            this.data.push(producto)
+          });
           this.dataAll = Object.assign([], response.data.AllProducts);
+          this.loader = false
         })
         .catch(err => {
           console.log("hubo un error: ", err);
+          this.loader = false
         });
+    },
+    async load(index, done) {
+      if (!this.fin) {
+        this.page = this.page+1
+        this.loader = true
+        await this.allProducts()
+      }
+      done()
     },
     // getDetail(producto) {
     //   this.$router.push({ name: "detalles", params: producto });

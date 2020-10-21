@@ -353,7 +353,7 @@
         foo.setAttribute("data-epayco-currency","cop")
         foo.setAttribute("data-epayco-country","co")
         foo.setAttribute("data-epayco-test","true")
-        foo.setAttribute("data-epayco-external","true")
+        foo.setAttribute("data-epayco-external","false")
         foo.setAttribute("data-epayco-response",this.response)
         this.$refs.myform.appendChild(foo);
       },
