@@ -1,88 +1,88 @@
 <template>
   <div class="q-my-md row justify-center">
     <q-card class="q-px-lg q-pb-md q-mx-md col-10" bordered>
-        <q-card-section class="row q-pt-x"  :style="$q.screen.lt.md ? 'margin-left: -40px' : ''" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'">
-          <div class="text-h5 q-mt-sm q-mb-lg col-12">Resumen de la compra</div>
+        <q-card-section class="row q-pt-x" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'">
+          <div class="text-h5 q-mt-sm q-mb-lg col-12" :class="$q.screen.lt.md ? 'text-center' : ''">Resumen de la compra</div>
           <q-list bordered class="col-11 bg-white rounded-borders">
-            <q-item class="row justify-between" v-for="(product,index) in products" :key="index">
-              <q-card-section class="col-6 row">
+            <div class="row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-between'" v-for="(product,index) in products" :key="index">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 row q-pa-lg" :class="$q.screen.lt.md ? 'justify-center' : ''">
                 <q-img
-                  class="rounded-borders q-mr-lg col-6"
+                  class="rounded-borders col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                  :class="$q.screen.lt.md ? '' : 'q-mr-lg'"
                   :src="product.highlight ? config.api.url + product.highlight : config.api.url + product.image[0]"
                   width="100px"
                   height="100px"
                 />
-                <span class="col-5 q-mt-lg"><b>{{product.name}}</b> {{product.branch ? ' - ' + product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
-              </q-card-section>
+                <span class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-my-lg" :class="$q.screen.lt.md ? 'text-center' : ''"><b>{{product.name}}</b> {{product.branch ? ' - ' + product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
+              </div>
 
-              <q-item-section class="col-6">
-                <div class="row justify-end text-grey-8">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="row text-grey-8" :class="$q.screen.lt.md ? 'justify-center q-mb-md' : ' justify-end q-my-lg q-pa-lg'">
                   <span class="q-mr-md"><b>Unidades: </b><q-btn
-              outline
-              class="text-black no-pointer-events"
-              color="white"
-              size="xs"
-              :label="product.quantity"
-              ></q-btn></span>
-              <span class="q-mr-md"><b>Total: </b><q-btn
-              outline
-              class="text-black no-pointer-events"
-              color="white"
-              size="xs"
-              :label="'$ ' + format(product.quantity*product.price)"
-              ></q-btn></span>
+                  outline
+                  class="text-black no-pointer-events"
+                  color="white"
+                  size="xs"
+                  :label="product.quantity"
+                  ></q-btn></span>
+                  <span class="q-mr-md"><b>Total: </b><q-btn
+                  outline
+                  class="text-black no-pointer-events"
+                  color="white"
+                  size="xs"
+                  :label="'$ ' + format(product.quantity*product.price)"
+                  ></q-btn></span>
                   <div>
                     <q-btn size="12px" color="positive" flat dense round icon="mdi-plus" @click="add(product)"/>
                     <q-btn size="12px" color="negative" flat dense round icon="mdi-minus" @click="del(product)"/>
                     <q-btn size="12px" color="grey-5" flat dense round icon="mdi-delete" @click="deleted(product, product.quantity)"/>
                   </div>
                 </div>
-              </q-item-section>
-            </q-item>
+              </div>
+            </div>
             <q-separator />
 
             <q-card-section class="row">
-              <div class="text-center text-subtitle1 col-6">
+              <div class="text-center text-subtitle1 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <span>Total:</span> 
               </div>
-              <div class="text-center col-6">
+              <div class="text-center col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <span class="text-h6"><b>{{'$ '}}{{format(total)}}</b></span>
               </div>
             </q-card-section>
           </q-list>
         </q-card-section>
 
-      <q-card-section class="row" :style="$q.screen.lt.md ? 'margin-left: -40px' : ''" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'">
-        <q-list bordered class="row justify-center q-py-lg col-11 bg-white rounded-borders">
-          <q-input hide-bottom-space v-model="name" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm" label="Nombre o Razon Social"></q-input>
-          <q-input hide-bottom-space v-model="dni" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5" label="C.C., Nit., Pasaporte u Otro"></q-input>
-          <q-field outlined class="col-5 q-mt-sm q-mr-sm" label="Concepto" stack-label>
+      <q-card-section class="row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'">
+        <q-list bordered class="row justify-center q-py-lg col-lg-11 col-md-11 col-sm-12 col-xs-12 bg-white rounded-borders">
+          <q-input hide-bottom-space v-model="name" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Nombre o Razon Social"></q-input>
+          <q-input hide-bottom-space v-model="dni" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 " :class="$q.screen.lt.md ? 'q-mb-sm q-mt-sm' : 'q-mr-sm'" label="C.C., Nit., Pasaporte u Otro"></q-input>
+          <q-field outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Concepto" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">{{concept}}</div>
             </template>
           </q-field>
-          <q-field outlined class="col-5 q-mt-sm" label="Valor a pagar" stack-label>
+          <q-field outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Valor a pagar" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0"><span class="text-bold">{{'$ '}}</span>{{format(total)}}</div>
             </template>
           </q-field>
-          <q-input hide-bottom-space v-model="city" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Ciudad"></q-input>
-          <q-input hide-bottom-space v-model="dir" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Dirección"></q-input>
-          <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mr-sm q-mt-sm" label="Teléfono"></q-input>
-          <q-input :debounce="400" hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-5 q-mt-sm" label="Correo"></q-input>
+          <q-input hide-bottom-space v-model="city" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Ciudad"></q-input>
+          <q-input hide-bottom-space v-model="dir" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Dirección"></q-input>
+          <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Teléfono"></q-input>
+          <q-input :debounce="400" hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Correo"></q-input>
           <div class="col-12 row q-mt-md justify-end">
             <!-- <q-btn style="height: 35px" class="col-3 q-mr-sm" no-caps color="whatsapp" label="Pedir por whatsapp" icon-right="img:/statics/img/whatsapp.svg"></q-btn> -->
-            <form class="col-3 q-mr-sm" ref="myform" @click="saveCheckout()"></form>
+            <form class="col-lg-3 col-md-3 col-sm-12 col-xs-12" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" ref="myform" @click="saveCheckout()"></form>
           </div>
         </q-list>
       </q-card-section>
-
-      <q-card-section class="row" :style="$q.screen.lt.md ? 'margin-left: -40px' : ''" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'">
-        <q-list bordered class="q-pa-lg col-11 bg-white rounded-borders">
+      <q-card-section class="row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'">
+        <q-list bordered class="q-pa-lg col-lg-11 col-md-11 col-sm-12 col-xs-12 bg-white rounded-borders">
           <p class="text-h6">Opciones de pago</p>
           <p>Aceptamos los siguientes metodos de pago:</p>
-          <q-img src="statics/img/parte_1.png" spinner-color="white" width="50%" />
-          <q-img src="statics/img/parte_2.png" spinner-color="white" width="50%" />
+          <q-img src="statics/img/parte_1.png" spinner-color="white" :width="$q.screen.lt.md ? '100%' : '50%'" />
+          <q-img src="statics/img/parte_2.png" spinner-color="white" :width="$q.screen.lt.md ? '100%' : '50%'" />
           <br> <br>
           <p>Los metodos de pago disponibles pueden variar segun el tipo de despacho</p>
         </q-list>
