@@ -13,7 +13,7 @@
                   width="100px"
                   height="100px"
                 />
-                <span class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-my-lg" :class="$q.screen.lt.md ? 'text-center' : ''"><b>{{product.name}}</b> {{product.branch ? ' - ' + product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
+                <span class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-my-lg" :class="$q.screen.lt.md ? 'text-center' : ''"><b>{{product.name}}</b> {{product.branch && product.branch.name !== null ? ' - ' + product.branch.name : ''}} {{product.description ? ' | ' + product.description.slice(0,10)+'...' : ''}}</span>
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

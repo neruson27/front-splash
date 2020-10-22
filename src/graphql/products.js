@@ -231,8 +231,8 @@ export const CATEGORY_UPDATE = gql`
 
 // PRODUCTOS
 export const PRODUCTOS_QUERY = gql`
-  query AllProducts($pagination: PaginationInput) {
-    AllProducts(pagination: $pagination) {
+  query AllProducts($pagination: PaginationInput, $filter: FilterInput) {
+    AllProducts(pagination: $pagination, filter: $filter) {
       _id
       name
       description
@@ -274,9 +274,97 @@ export const PRODUCTOS_QUERY = gql`
   }
 `;
 
+export const ONE_PRODUCT = gql`
+  query OneProduct($ref: String) {
+    OneProduct(ref: $ref) {
+      _id
+      name
+      description
+      description_long
+      price
+      highlight
+      image
+      branch {
+        name
+      }
+      model
+      category {
+        _id
+        name
+        subcategory {
+          _id
+          name
+        }
+        tagsgroup{
+          _id
+          name
+          tags {
+            _id
+            name
+          }
+        }
+      }
+      subcategory {
+        _id
+        name
+      }
+      tags {
+        _id
+        name
+      }
+      ref
+      createdAt
+    }
+  }
+`
+
 export const PRODUCTOS_HOME_QUERY = gql`
   query HomeProducts {
     HomeProducts {
+      _id
+      name
+      description
+      description_long
+      price
+      highlight
+      image
+      branch {
+        name
+      }
+      model
+      category {
+        _id
+        name
+        subcategory {
+          _id
+          name
+        }
+        tagsgroup{
+          _id
+          name
+          tags {
+            _id
+            name
+          }
+        }
+      }
+      subcategory {
+        _id
+        name
+      }
+      tags {
+        _id
+        name
+      }
+      ref
+      createdAt
+    }
+  }
+`;
+
+export const FILTER_PRODUCTS = gql`
+  query FilterProduct($pagination: PaginationInput, $filter: FilterInput){
+    FilterProduct(pagination: $pagination,filter: $filter){
       _id
       name
       description

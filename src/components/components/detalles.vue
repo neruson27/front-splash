@@ -128,7 +128,7 @@
 
 <script>
 import config from "@/config";
-import { PRODUCTOS_QUERY } from "@/graphql/products";
+import { ONE_PRODUCT } from "@/graphql/products";
 export default {
   name: "detalle",
   data() {
@@ -149,7 +149,6 @@ export default {
     //   this.routerParams = this.$route.params;
     // }
     await this.allProducts();
-    await this.getData(this.$route.query.ref);
     console.log(this.product);
     this.imagenSelect = this.product.image[0];
     let url = this.config.api.url
@@ -167,12 +166,16 @@ export default {
     allProducts() {
       return this.$apollo
         .query({
-          query: PRODUCTOS_QUERY,
+          query: ONE_PRODUCT,
+          variables: {
+            ref: this.$route.query.ref
+          },
           fetchPolicy: "network-only"
         })
         .then(response => {
-          console.log(response.data.AllProducts);
-          this.data = Object.assign([], response.data.AllProducts);
+          console.log(response.data.OneProduct);
+          this.product = Object.assign({},response.data.OneProduct);
+          if (this.product.image[0] !== this.product.highlight) this.product.image.splice(0, 0, this.product.highlight)
         })
         .catch(err => {
           console.log("hubo un error: ", err);
