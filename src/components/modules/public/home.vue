@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { PRODUCTOS_QUERY } from "@/graphql/products";
+import { PRODUCTOS_HOME_QUERY } from "@/graphql/products";
 import { ALL_SLIDE_QUERY } from "@/graphql/slide";
 import brands from "@/components/components/brands";
 import config from "@/config";
@@ -140,12 +140,12 @@ export default {
       this.loader = true
       return this.$apollo
         .query({
-          query: PRODUCTOS_QUERY,
+          query: PRODUCTOS_HOME_QUERY,
           fetchPolicy: "network-only"
         })
         .then(response => {
           console.log(response.data.AllProducts);
-          this.data = Object.assign([], response.data.AllProducts);
+          this.data = Object.assign([], response.data.HomeProducts);
           this.loader = false
         })
         .catch(err => {
