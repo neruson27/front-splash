@@ -12,7 +12,7 @@
             emit-value
             map-options
             :options="categories"
-            label="Categorias"
+            label="Hombre o Mujer"
             clearable
             @clear="clearAll()"
           />
@@ -27,7 +27,7 @@
             emit-value
             map-options
             :options="filtroCategory ? filtroCategory.subcategory : subcategories"
-            label="Sub-categorias"
+            label="Fragancia"
             clearable
             @clear="clearAll()"
           />
