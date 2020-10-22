@@ -14,7 +14,7 @@
             :options="categories"
             label="Hombre o Mujer"
             clearable
-            @clear="clearAll()"
+            @clear="clearAll('categoria')"
           />
         </div>
         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12 q-ma-sm q-ma-sm">
@@ -29,7 +29,7 @@
             :options="filtroCategory ? filtroCategory.subcategory : subcategories"
             label="Fragancia"
             clearable
-            @clear="clearAll()"
+            @clear="clearAll('subcategoria')"
           />
         </div>
         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12 q-ma-sm q-ma-sm" v-if="branchs.lenght > 1">
@@ -44,7 +44,7 @@
             :options="branchs"
             label="Marcas"
             clearable
-            @clear="clearAll()"
+            @clear="clearAll('branch')"
           />
         </div>
         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12 q-ma-sm q-ma-sm">
@@ -59,11 +59,11 @@
             :options="filtroCategory && filtroCategory.tagsgroup[0] ? filtroCategory.tagsgroup[0].tags : tags"
             label="Características"
             clearable
-            @clear="clearAll()"
+            @clear="clearAll('tags')"
           />
         </div>
         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-xs-5 q-ma-sm text-center">
-          <q-btn v-if="botonBuscar" color="negative" @click="buscarProducto()" label="Buscar" />
+          <q-btn v-if="botonBuscar" color="negative" @click="allProducts(true)" label="Buscar" />
         </div>
       </div>
     </div>
@@ -98,7 +98,7 @@
                 <div
                   style="color:#808080;"
                   class="text-caption text-bold col-12"
-                ><span v-if="producto.branch">{{producto.branch.name}} ></span> {{producto.category.name}}</div>
+                ><span v-if="producto.branch && producto.branch.name !== null">{{producto.branch.name}} ></span> {{producto.category.name}}</div>
                 <div style="font-size:10px;color:#808080;" class="col-12 ellipsis">{{producto.description ? producto.description : 'No hay descripcion del producto'}}</div>
                 <div class="text-h5 text-bold col-12" style="color:#4b4b4b;">$ {{format(producto.price)}}</div>
                 <div class="row justify-between col-12">
@@ -142,7 +142,8 @@ import {
   SUBCATEGORY_QUERY,
   CATEGORY_QUERY,
   TAG_QUERY,
-  PRODUCTOS_QUERY
+  PRODUCTOS_QUERY,
+  FILTER_PRODUCTS
 } from "@/graphql/products";
 import config from "@/config";
 export default {
@@ -191,22 +192,22 @@ export default {
         this.data = Object.assign([], this.dataAll);
     },
     filtroCategory(newValue) {
-      if (this.filtroCategory !== "") {
+      if (this.filtroCategory) {
         return (this.botonBuscar = true);
       }
     },
     filtroSubCategory(newValue) {
-      if (this.filtroSubCategory !== "") {
+      if (this.filtroSubCategory) {
         return (this.botonBuscar = true);
       }
     },
     filtroBranch(newValue) {
-      if (this.filtroBranch !== "") {
+      if (this.filtroBranch) {
         return (this.botonBuscar = true);
       }
     },
     filtroTag(newValue) {
-      if (this.filtroTag !== "") {
+      if (this.filtroTag) {
         return (this.botonBuscar = true);
       }
     }
@@ -248,16 +249,27 @@ export default {
           console.log("hubo un error: ", err);
         });
     },
-    allProducts() {
+    allProducts(button) {
+      if(button){
+        this.data = []
+        this.page = 1
+        this.fin = false
+      } 
       let pagination = {
         page: this.page,
         limit: 8
       }
+      let filter = {}
+      if(this.filtroCategory) filter['categoria'] = this.filtroCategory.name
+      if(this.filtoSubCategory) filter['subcategoria'] = this.filtroSubCategory.name
+      if(this.filtroTag) filter['tags'] = this.filtroTag.name
+      if(this.filtroBranch) filter['brach'] = this.filtroBranch.name
       return this.$apollo
         .query({
           query: PRODUCTOS_QUERY,
           variables: {
-            pagination: pagination
+            pagination: pagination,
+            filter: filter
           },
           fetchPolicy: "network-only"
         })
@@ -286,31 +298,33 @@ export default {
     // getDetail(producto) {
     //   this.$router.push({ name: "detalles", params: producto });
     // },
-    buscarProducto() {
-      this.data = Object.assign([], this.dataAll);
-      if (this.filtroCategory.name)
-        this.data = this.data.filter(
-          dat => dat.category.name === this.filtroCategory.name
-        );
-      if (this.filtroSubCategory.name)
-        this.data = this.data.filter(
-          dat => dat.subcategory.name === this.filtroSubCategory.name
-        );
-      if (this.filtroBranch.name)
-        this.data = this.data.filter(
-          dat => dat.branch.name === this.filtroBranch.name
-        );
-      if (this.filtroTag.name)
-        this.data = this.data.filter(dat =>
-          dat.tags.find(tag => tag.name === this.filtroTag.name)
-        );
-
-      if (this.data.length === 0) {
-        this.mensaje = true;
-      } else {
-        this.mensaje = false;
-      }
-    },
+    // buscarProducto() {
+    //   let pagination = {
+    //     page: this.page,
+    //     limit: 8
+    //   }
+    //   let filter = {
+    //     categoria: this.filtroCategory.name,
+    //     subcategoria: this.filtroSubCategory.name,
+    //     tags: this.filtroTag.name,
+    //   }
+    //   return this.$apollo
+    //     .query({
+    //       query: FILTER_PRODUCTS,
+    //       variables: {
+    //         pagination: pagination,
+    //         filter: filter
+    //       },
+    //       fetchPolicy: "network-only"
+    //     })
+    //     .then(response => {
+    //       console.log(response.data);
+    //     })
+    //     .catch(err => {
+    //       console.log("hubo un error: ", err);
+    //       this.loader = false
+    //     });
+    // },
     searchProducto(search) {
       console.log(search);
       this.data = Object.assign([], this.dataAll);
@@ -323,15 +337,31 @@ export default {
         this.mensaje = false;
       }
     },
-    clearAll() {
+    clearAll(whichInput) {
       console.log("erase");
-      this.filtroCategory = "";
-      this.filtroSubCategory = "";
-      this.filtroBranch = "";
-      this.filtroTag = "";
-      this.botonBuscar = "";
+      switch(whichInput){
+        case "category":
+          this.filtroCategory = "";
+        break;
+        case "subcategory":
+          this.filtroSubCategory = "";
+        break;
+        case "tags":
+          this.filtroTag = "";
+        break;
+        case "brach":
+          this.filtroBranch = "";
+        break;
+      }
+      console.log(!this.filtroCategory)
+      console.log(!this.filtroSubCategory)
+      console.log(!this.filtroTag)
+      if(!this.filtroCategory && !this.filtroSubCategory && !this.filtroTag){
+        console.log("elwebomioestaprendiocomounsopletelollama")
+        this.botonBuscar = false
+      } 
       this.mensaje = false;
-      this.data = Object.assign([], this.dataAll);
+      this.allProducts(true)
     },
     add(producto) {
       let item = {
