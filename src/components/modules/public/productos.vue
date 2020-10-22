@@ -127,8 +127,8 @@
               </q-card-section>
               <q-separator class="q-mt-sm" style="height:1px;background-color:#4b4b4b;" />
             </q-card>
-            </q-infinite-scroll>
-          </q-card>
+          </q-infinite-scroll>
+        </q-card>
         <div class="q-ma-xl" v-else>
           <span>No hay productos disponibles</span>
         </div>
