@@ -64,20 +64,20 @@
       <q-card bordered class="my-card">
         <q-card-section>
           <q-card-section class="q-pa-md">
-            <div class="text-overline">Productos: {{products.length}}</div>
+            <div class="text-overline">Productos: {{total}}</div>
             <q-list separator>
-              <q-item clickable v-ripple v-for="producto in productsReduced" :key="producto.ref">
+              <q-item v-if="productosmalditasea.length > 0" clickable v-ripple v-for="producto in productosmalditasea" :key="producto.ref">
                 <q-item-section avatar>
                   <q-avatar rounded>
                     <img :src="config.api.url + producto.highlight" />
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label>{{producto.name}}</q-item-label>
+                  <q-item-label>{{producto.name ? producto.name : ''}}</q-item-label>
                   <q-item-label
                     caption
                     class="ellipsis"
-                  >{{producto.category.name}} - {{producto.subcategory.name}}</q-item-label>
+                  >{{producto.category ? producto.category.name : ''}} - {{producto.subcategory ? producto.subcategory.name : ''}}</q-item-label>
                 </q-item-section>
 
                 <q-item-section side top>
@@ -118,23 +118,25 @@ import {
   BRANCH_QUERY,
   ADDPRODUCT_MUTATION,
   PRODUCT_UPDATE,
-  DELETE_PRODUCT_MUTATION
+  DELETE_PRODUCT_MUTATION,
+  ALL_PRODUCTS_ADMIN
 } from "@/graphql/products";
 import { ALL_ORDER_QUERY } from "@/graphql/orders";
 import config from "@/config";
 export default {
   name: "productos",
   components: {},
+  props: ["produtcs","total"],
   data() {
     return {
       config: config,
-      products: [],
       categories: [],
       subcategories: [],
       tags: [],
       branchs: [],
       orders: [],
       productsReduced: [],
+      totalProducts: this.total,
       columns: [
         {
           name: "asc",
@@ -166,31 +168,37 @@ export default {
       }
     }
   },
-  created() {
-    this.allProducts();
+  async mounted() {
+    // await this.allProducts();
     this.allCategories();
     this.allSubcategories();
     this.allTags();
     // this.allBranchs();
     this.allOrders();
   },
+  computed: {
+    productosmalditasea() {
+      return this.produtcs
+    }
+  },
   methods: {
     allProducts() {
-      this.$apollo
+      let pagination = {
+        page: 1,
+        limit: 4
+      }
+      return this.$apollo
         .query({
-          query: PRODUCTOS_QUERY,
+          query: ALL_PRODUCTS_ADMIN,
+          variables: {
+            pagination: pagination 
+          },
           fetchPolicy: "network-only"
         })
         .then(response => {
-          this.products = Object.assign([], response.data.AllProducts);
-          this.products = this.products.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          });
-          let count = 4
-          if (this.products.length < 4) count = this.products.length
-          for (let cont = 0; cont < count; cont++) {
-            this.productsReduced.push(this.products[cont]);
-          }
+          this.productsReduced = Object.assign([], response.data.AdminProduct.product)
+          this.totalProducts = Object.assign(response.data.AdminProduct.total)
+          
         })
         .catch(err => {
           console.log("hubo un error: ", err);

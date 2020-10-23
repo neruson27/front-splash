@@ -8,7 +8,7 @@
 
         <q-tab-panels v-model="tab" animated style="background-color:#f7f8fb">
           <q-tab-panel name="home">
-            <homepanel></homepanel>
+              <homepanel :produtcs="productsReduced" :total="totalProducts"></homepanel>
           </q-tab-panel>
 
           <q-tab-panel name="productos">
@@ -57,7 +57,9 @@ import productos from "./productos";
 import orders from "./orders";
 import slides from "./slides"
 import homepanel from "./homepanel";
-
+import {
+  ALL_PRODUCTS_ADMIN
+} from "@/graphql/products";
 export default {
   name: "homeAdmin",
   components: {
@@ -74,7 +76,12 @@ export default {
   data() {
     return {
       // tab: "productos"
+      productsReduced: [],
+      totalProducts: 0
     };
+  },
+  async created() {
+    await this.allProducts()
   },
   computed: {
     tab() {
@@ -85,6 +92,28 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    allProducts() {
+      let pagination = {
+        page: 1,
+        limit: 4
+      }
+      return this.$apollo
+        .query({
+          query: ALL_PRODUCTS_ADMIN,
+          variables: {
+            pagination: pagination 
+          },
+          fetchPolicy: "network-only"
+        })
+        .then(response => {
+          this.productsReduced = Object.assign([], response.data.AdminProduct.product)
+          this.totalProducts = Object.assign(response.data.AdminProduct.total)
+        })
+        .catch(err => {
+          console.log("hubo un error: ", err);
+        });
+    },
+  }
 };
 </script>
