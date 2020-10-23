@@ -44,7 +44,7 @@
         <Footer></Footer>
       </q-footer>
       <q-page-sticky position="top-right" :offset="[18, 80]" v-if="!$store.state.user.isAuthenticated">
-        <q-btn flat rounded type="a" href="https://wa.me/573013310597?text=Hola, estoy interesado en recibir informacion de sus productos.">
+        <q-btn flat rounded type="a" href="https://wa.me/573016590477?text=Hola, estoy interesado en recibir informacion de sus productos.">
           <q-img src="/statics/img/whatsapp.svg" height="50px" width="50px"></q-img>
         </q-btn>
       </q-page-sticky>

@@ -32,15 +32,15 @@
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/logo_servicio_cliente_blanco.svg" height="30px" width="30px" ></q-img>
               <a href="tel:+573013310597" class="q-pt-sm text-black" style="text-decoration: none">Servicio al cliente</a>
             </div>
-            <span class="col-12 q-mt-lg">+57 301 331 0597</span>
-            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-xs-5 row justify-around">
-              <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573013310597?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
-              <q-btn class="col-5" flat rounded type="a" href="tel:+573013310597" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
-            </div>
             <span class="col-12 q-mt-sm">+57 301 659 0477</span>
             <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-xs-5 row justify-around">
               <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573016590477?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
               <q-btn class="col-5" flat rounded type="a" href="tel:+573016590477" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
+            </div>
+            <span class="col-12 q-mt-lg">+57 301 331 0597</span>
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-xs-5 row justify-around">
+              <q-btn class="col-5" flat rounded type="a" href="https://wa.me/573013310597?text=Hola estoy interesad@ en sus productos" icon="img:/statics/icons/whatsapp_gris.svg" height="30px" width="30px"></q-btn>
+              <q-btn class="col-5" flat rounded type="a" href="tel:+573013310597" icon="img:/statics/icons/telefono_gris.svg" height="30px" width="30px"></q-btn>
             </div>
             <div class="col-12 row q-mt-lg">
               <q-img class="q-mr-sm q-mb-sm" src="/statics/icons/marcador_gris.svg" height="30px" width="30px"></q-img>
