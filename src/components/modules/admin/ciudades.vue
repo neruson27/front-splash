@@ -256,7 +256,7 @@ export default {
       precioEnvioNew: 0,
       filter: "",
       initialPagination: {
-        sortBy: "asc",
+        sortBy: "desc",
         descending: true,
         rowsPerPage: 3,
       },
@@ -485,6 +485,10 @@ export default {
         })
         .then((response) => {
           this.allTax();
+          this.$q.notify({
+            message: "Creado con exito",
+            color: "positive",
+          });
           this.newTaxDialog = false;
           this.boolDefault = false;
           this.precioEnvioNew = 0

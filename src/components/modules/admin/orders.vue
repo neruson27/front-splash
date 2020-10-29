@@ -12,7 +12,7 @@
       <div class="q-pa-md">
         <q-table
           grid
-          :pagination.sync="initialPagination"
+          :pagination.sync="pagination"
           :grid-header="!$q.screen.lt.md"
           :dense="$q.screen.lt.md"
           :data="orders"
@@ -20,17 +20,18 @@
           card-class="bg-header logo text-white"
           row-key="asc"
           :filter="filter"
-          :rows-per-page-options="perPage"
           hide-header
+          @request="onRequest"
+          binary-state-sort
           @row-click="(evt, row) => handler(row)"
         >
-          <template v-slot:top-right>
+          <!-- <template v-slot:top-right>
             <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
               <template v-slot:append>
                 <q-icon name="search" />
               </template>
             </q-input>
-          </template>
+          </template> -->
         </q-table>
       </div>
     </div>
@@ -122,10 +123,16 @@ export default {
       status: ["Despachado", "Por Despachar", "Orden Invalida"],
       detalle: [],
       filter: "",
+      page: 1,
       initialPagination: {
         sortBy: "asc",
         descending: true,
         rowsPerPage: 3
+      },
+      pagination: {
+        page: 1,
+        rowsPerPage: 4,
+        rowsNumber: 4
       },
       perPage: [],
       columns: [
@@ -162,7 +169,8 @@ export default {
     };
   },
   created() {
-    this.allOrders();
+    this.onRequest();
+    // this.allOrders();
     if (this.$q.screen.lt.md) {
       this.initialPagination.rowsPerPage = 6;
       this.perPage.push(6, 12, 18, 24, 30, 36);
@@ -179,14 +187,31 @@ export default {
     },
   },
   methods: {
-    allOrders() {
+    onRequest(props){
+      const { page, rowsPerPage } = props ? props.pagination : this.pagination      
+
+      let paginate = {
+        page: page,
+        limit: rowsPerPage
+      }
+      this.allOrders(paginate)
+    },
+    allOrders(paginate) {
+      let filter = {}
       this.$apollo
         .query({
           query: ALL_ORDER_QUERY,
+          variables: {
+            pagination: paginate,
+            filter: filter
+          },
           fetchPolicy: "network-only"
         })
         .then(response => {
-          this.orders = Object.assign([], response.data.AllOrders);
+          this.orders = Object.assign([], response.data.AllOrders.orders);
+          this.pagination.page = response.data.AllOrders.pagination.page;
+          this.pagination.rowsPerPage = response.data.AllOrders.pagination.limit;
+          this.pagination.rowsNumber = response.data.AllOrders.pagination.total;
         })
         .catch(err => {
           console.log("hubo un error: ", err);

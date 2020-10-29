@@ -10,8 +10,8 @@ DeleteOrder(id: ID): Response
 
 export const ALL_ORDER_QUERY = gql`
   query AllOrders($pagination: PaginationInput, $filter: FilterInput) {
-    AllOrders(pagination: $pagination, filter: $pagination) {
-      orders: {
+    AllOrders(pagination: $pagination, filter: $filter) {
+      orders {
         _id
         ref_payco
         orderNumber
@@ -43,11 +43,12 @@ export const ALL_ORDER_QUERY = gql`
         status
         createdAt
       }
-      pagination: {
+      pagination {
         total
         page
         pages
-        limit      }
+        limit      
+      }
     }
   }
 `;
