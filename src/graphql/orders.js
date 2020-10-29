@@ -9,38 +9,45 @@ DeleteOrder(id: ID): Response
 */
 
 export const ALL_ORDER_QUERY = gql`
-  query AllOrders {
-    AllOrders {
-      _id
-      ref_payco
-      orderNumber
-      products {
+  query AllOrders($pagination: PaginationInput, $filter: FilterInput) {
+    AllOrders(pagination: $pagination, filter: $pagination) {
+      orders: {
         _id
-        name
-        description
+        ref_payco
+        orderNumber
+        products {
+          _id
+          name
+          description
+          price
+          highlight
+          image
+          branch {
+            name
+          }
+          model
+          category {
+            name
+          }
+          subcategory {
+            name
+          }
+          tags {
+            name
+          }
+          ref
+          quantity
+          createdAt
+        }
         price
-        highlight
-        image
-        branch {
-          name
-        }
-        model
-        category {
-          name
-        }
-        subcategory {
-          name
-        }
-        tags {
-          name
-        }
-        ref
-        quantity
+        status
         createdAt
       }
-      price
-      status
-      createdAt
+      pagination: {
+        total
+        page
+        pages
+        limit      }
     }
   }
 `;
