@@ -42,6 +42,11 @@
           <q-tab-panel name="slide">
             <slides></slides>
           </q-tab-panel>
+
+          <q-tab-panel name="ciudades">
+            <ciudades></ciudades>
+          </q-tab-panel>
+
         </q-tab-panels>
       </div>
     </div>
@@ -52,6 +57,7 @@ import categorias from "./categorias";
 import subcategorias from "./subcategorias";
 import marcas from "./marcas";
 import tags from "./tags";
+import ciudades from "./ciudades";
 import grupostags from "./grupostags";
 import productos from "./productos";
 import orders from "./orders";
@@ -66,6 +72,7 @@ export default {
     categorias,
     subcategorias,
     marcas,
+    ciudades,
     tags,
     grupostags,
     productos,

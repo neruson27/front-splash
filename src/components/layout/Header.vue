@@ -195,7 +195,7 @@
           <q-route-tab style="justify-content: start;" icon="img:statics/icons/sub-categorias.svg" to="/homeAdmin?tab=subcategorias" exact label="subcategorias"></q-route-tab>
           <q-separator dark />
           <!-- <q-route-tab style="justify-content: start;" icon="img:statics/icons/marcas.svg" to="/homeAdmin?tab=marcas" exact label="marcas"></q-route-tab> -->
-          <q-separator dark />
+          <!-- <q-separator dark /> -->
           <q-route-tab style="justify-content: start;" icon="img:statics/icons/tags.svg" to="/homeAdmin?tab=etiquetas" exact label="tags"></q-route-tab>
           <q-separator dark />
           <q-route-tab style="justify-content: start;" icon="img:statics/icons/grupo_tags.svg" to="/homeAdmin?tab=grupo de etiquetas" exact label="grupostags"></q-route-tab>
@@ -203,6 +203,8 @@
           <q-route-tab style="justify-content: start;" icon="img:statics/icons/pedidos.svg" to="/homeAdmin?tab=ordenes" exact label="orders"></q-route-tab>
           <q-separator dark />
           <q-route-tab style="justify-content: start;" icon="mdi-file-image-outline" to="/homeAdmin?tab=slide" exact label="slide"></q-route-tab>
+          <q-separator dark />
+          <q-route-tab style="justify-content: start;" icon="mdi-map" to="/homeAdmin?tab=ciudades" exact label="ciudades"></q-route-tab>
         </q-tabs>
       </q-scroll-area>
     </q-drawer>
