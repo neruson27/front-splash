@@ -165,7 +165,7 @@
           accept=".jpg, .png, .svg"
           clearable
           class="col-6 q-px-sm"
-          :rules="updating == true ? '' : [val => !!val || 'Esto es requerido!']"
+          :rules="updating == true ? [] : [val => !!val || 'Esto es requerido!']"
           hide-bottom-space
         />
         <q-scroll-area horizontal style="height: 200px;" class="col-12 q-mt-sm">
@@ -338,9 +338,11 @@ export default {
   watch: {
     async image(newValue) {
       this.previewImgs = [];
-      for (let img of newValue) {
-        let image = await this.readFileAsync(img);
-        this.previewImgs.push(image);
+      if(newValue !== undefined){
+        for (let img of newValue) {
+          let image = await this.readFileAsync(img);
+          this.previewImgs.push(image);
+        }
       }
     },
     price(newValue) {
@@ -387,17 +389,19 @@ export default {
   },
   methods: {
     readFileAsync(file) {
-      return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-
-        reader.onload = () => {
-          resolve(reader.result);
-        };
-
-        reader.onerror = reject;
-
-        reader.readAsDataURL(file);
-      });
+      if(file){
+        return new Promise((resolve, reject) => {
+          let reader = new FileReader();
+  
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+  
+          reader.onerror = reject;
+  
+          reader.readAsDataURL(file);
+        });
+      }
     },
     clearCategory() {
       this.category = {

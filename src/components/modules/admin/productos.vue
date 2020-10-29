@@ -3,7 +3,18 @@
     <q-tab-panels class="col-12" v-model="tab" animated style="background-color:#f7f8fb">
       <q-tab-panel name="products">
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-          <q-table :square="false" :filter="filter" :data="allProduct" :columns="columns" :dense="$q.screen.lt.md" row-key="name">
+          <q-table 
+          :square="false" 
+          :filter="filter" 
+          :data="allProduct" 
+          :columns="columns" 
+          :pagination.sync="pagination"
+          :loading="loading"
+          :dense="$q.screen.lt.md" 
+          row-key="name"
+          @request="onRequest"
+          binary-state-sort
+          >
             <template v-slot:top-left>
               <p class="text-h6">Lista de productos</p>
             </template>
@@ -22,9 +33,9 @@
                     <img :src="config.api.url + props.row.highlight" />
                   </q-avatar>
                 </td>
-                <td class="text-left" key="name">{{props.row.name}}</td>
-                <td class="text-left" key="categoy">{{props.row.category.name}}</td>
-                <td class="text-left" key="subcategory">{{props.row.subcategory.name}}</td>
+                <td class="text-left" key="name">{{props.row.name ? props.row.name : ''}}</td>
+                <td class="text-left" key="categoy">{{props.row.category ? props.row.category.name : ''}}</td>
+                <td class="text-left" key="subcategory">{{props.row.subcategory ? props.row.subcategory.name : ''}}</td>
                 <td class="text-left" key="tags">
                   <q-badge
                     color="vinotinto"
@@ -58,10 +69,10 @@
         </div>
       </q-tab-panel>
       <q-tab-panel name="update">
-        <productform :updating="true" :product="productSelected" @uploaded="allProducts()" @cancel="(ev) => tab = ev" v-if="tab === 'update'" :categories="categories" :subcategories="subcategories" :tags="tags" :branchs="branchs"></productform>
+        <productform :updating="true" :product="productSelected" @uploaded="onRequest()" @cancel="(ev) => tab = ev" v-if="tab === 'update'" :categories="categories" :subcategories="subcategories" :tags="tags" :branchs="branchs"></productform>
       </q-tab-panel>
       <q-tab-panel name="create">
-        <productform :updating="false" :product="null" v-if="tab === 'create'" @created="allProducts()" @cancel="(ev) => tab = ev" :categories="categories" :subcategories="subcategories" :tags="tags" :branchs="branchs"></productform>
+        <productform :updating="false" :product="null" v-if="tab === 'create'" @created="onRequest()" @cancel="(ev) => tab = ev" :categories="categories" :subcategories="subcategories" :tags="tags" :branchs="branchs"></productform>
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -75,7 +86,8 @@ import {
   BRANCH_QUERY,
   ADDPRODUCT_MUTATION,
   PRODUCT_UPDATE,
-  DELETE_PRODUCT_MUTATION
+  DELETE_PRODUCT_MUTATION,
+  PRODUCTS_ALL_ADMIN
 } from "@/graphql/products";
 import config from "@/config";
 import productform from "./productosform"
@@ -140,29 +152,54 @@ export default {
       updating: false,
       productSelected: null,
       filter: '',
-      dataPro: []
+      dataPro: [],
+      pagination: {
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 10
+      },
+      loading: false,
     };
   },
   created() {
-    this.allProducts();
+    // this.allProducts();
+    this.onRequest();
     this.allCategories();
     this.allSubcategories();
     this.allTags();
     this.allBranchs();
   },
   methods: {
-    allProducts() {
+    onRequest(props){
+      const { page, rowsPerPage } = props ? props.pagination : this.pagination
+
+      this.loading = true;
+      let paginate = {
+        page: page,
+        limit: rowsPerPage
+      }
+      this.tab = 'products'
+      this.allProducts(paginate)
+    },
+    allProducts(paginate) {
       this.$apollo
         .query({
-          query: PRODUCTOS_QUERY,
+          query: PRODUCTS_ALL_ADMIN,
+          variables: {
+            pagination: paginate
+          },
           fetchPolicy: "network-only"
         })
         .then(response => {
-          this.allProduct = Object.assign([], response.data.AllProducts);
-          this.tab = "products"
+          this.pagination.page = response.data.ProductsAll.pagination.page;
+          this.pagination.rowsPerPage = response.data.ProductsAll.pagination.limit;
+          this.pagination.rowsNumber = response.data.ProductsAll.pagination.total;
+          this.allProduct = response.data.ProductsAll.product
+          this.loading = false
         })
         .catch(err => {
           console.log("hubo un error: ", err);
+          this.loading = false
         });
     },
     allCategories() {
@@ -235,7 +272,7 @@ export default {
               vm.allProduct.splice(index, 1);
             }
           });
-          this.allProducts();
+          this.onRequest();
         })
         .catch(err => {
           console.log("error delete product: ", err);

@@ -67,7 +67,8 @@
               <div class="self-center full-width no-outline" tabindex="0"><span class="text-bold">{{'$ '}}</span>{{format(total)}}</div>
             </template>
           </q-field>
-          <q-input hide-bottom-space v-model="city" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Ciudad"></q-input>
+          <q-select hide-bottom-space :rules="[val => (val !== undefined && val !== null) || 'Esto es obligatorio!']" emit-value map-options v-model="department" :options="departamentosItem" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Departamento" />
+          <q-select hide-bottom-space :rules="[val => (val !== undefined && val !== null) || 'Esto es obligatorio!']" emit-value map-options v-model="city" :options="citiesItem" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Ciudad" />
           <q-input hide-bottom-space v-model="dir" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Dirección"></q-input>
           <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Teléfono"></q-input>
           <q-input :debounce="400" hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Correo"></q-input>
@@ -93,7 +94,9 @@
 
 <script>  
   import { CREATE_ORDER, NUM_ORDER } from "@/graphql/orders";
+  import { ONE_TAX } from "@/graphql/cities";
   import config from "@/config"
+  import ciudades from "@/utils/ciudades";
   export default {
     name: "checkout",
     data() {
@@ -106,11 +109,18 @@
         email: '',
         city: '',
         response: '',
+        department: '',
+        taxEnvio: 0,
+        labelCity: '',
+        labelDepartment: '',
+        departamentosItem: [],
+        citiesItem: [],
+        selectCiudades: false,
         config: config
       };
     },
     mounted() {
-      
+      this.makeSelect()
     },
     computed: {
       concept() {
@@ -122,9 +132,10 @@
         return description
       },
       total() {
-        return this.products.reduce((total, p) => {
+        let total = this.products.reduce((total, p) => {
           return total + p.price * p.quantity;
         }, 0);
+        return total + this.taxEnvio
       },
       numberOfitemsInCart() {
         let cart = this.$store.getters.cart;
@@ -132,6 +143,12 @@
       },
     },
     watch: {
+      department(value){
+        if(value !== ""){
+          this.citiesItem = []
+          this.mapeoCiudad(value)
+        }
+      },
       async email(newValue) {
         if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
           if(this.$refs.myform.hasChildNodes()) {
@@ -175,73 +192,76 @@
           }
         }
     },
-    async dni (newValue) {
-        if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
-          if(this.$refs.myform.hasChildNodes()) {
-            if(this.$refs.myform.childNodes[0]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+      async dni (newValue) {
+          if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+            if(this.$refs.myform.hasChildNodes()) {
+              if(this.$refs.myform.childNodes[0]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+              }
+              if(this.$refs.myform.childNodes[1]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
+              }
+              if(this.$refs.myform.childNodes[2]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
+              }
             }
-            if(this.$refs.myform.childNodes[1]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
-            }
-            if(this.$refs.myform.childNodes[2]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
-            }
-          }
-          this.btnReady()
-        } else {
-          if(this.$refs.myform.hasChildNodes()) {
-            if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
-            if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
-          }
-        }
-        
-    },
-    async city (newValue) {
-        if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
-          if(this.$refs.myform.hasChildNodes()) {
-            if(this.$refs.myform.childNodes[0]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
-            }
-            if(this.$refs.myform.childNodes[1]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
-            }
-            if(this.$refs.myform.childNodes[2]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
+            this.btnReady()
+          } else {
+            if(this.$refs.myform.hasChildNodes()) {
+              if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
+              if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
             }
           }
-          this.btnReady()
-        } else {
-          if(this.$refs.myform.hasChildNodes()) {
-            if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
-            if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
+          
+      },
+      async city (newValue) {
+          if(newValue !== ""){
+            this.getTaxPay(newValue)
           }
-        }
-        
-    },
-    async tlf (newValue) {
-        if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
-          if(this.$refs.myform.hasChildNodes()) {
-            if(this.$refs.myform.childNodes[0]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+          if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+            if(this.$refs.myform.hasChildNodes()) {
+              if(this.$refs.myform.childNodes[0]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+              }
+              if(this.$refs.myform.childNodes[1]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
+              }
+              if(this.$refs.myform.childNodes[2]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
+              }
             }
-            if(this.$refs.myform.childNodes[1]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
-            }
-            if(this.$refs.myform.childNodes[2]) {
-              this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
+            this.btnReady()
+          } else {
+            if(this.$refs.myform.hasChildNodes()) {
+              if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
+              if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
             }
           }
-          this.btnReady()
-        } else {
-          if(this.$refs.myform.hasChildNodes()) {
-            if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
-            if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
+          
+      },
+      async tlf (newValue) {
+          if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+            if(this.$refs.myform.hasChildNodes()) {
+              if(this.$refs.myform.childNodes[0]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
+              }
+              if(this.$refs.myform.childNodes[1]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[1])
+              }
+              if(this.$refs.myform.childNodes[2]) {
+                this.$refs.myform.removeChild(this.$refs.myform.childNodes[2])
+              }
+            }
+            this.btnReady()
+          } else {
+            if(this.$refs.myform.hasChildNodes()) {
+              if(this.$refs.myform.childNodes[0]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[0]);
+              if(this.$refs.myform.childNodes[1]) this.$refs.myform.removeChild(this.$refs.myform.childNodes[1]);
+            }
           }
-        }
-        
-    },
-    async dir (newValue) {
+          
+      },
+      async dir (newValue) {
         if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
           if(this.$refs.myform.hasChildNodes()) {
             if(this.$refs.myform.childNodes[0]) {
@@ -265,6 +285,66 @@
       },
     },
     methods: {
+      getTaxPay(value){
+        let labelDepartment
+        let labelCity
+        let nplus = 0
+        ciudades.map(item =>{
+          if(item.id === this.department){
+            labelDepartment = item.departamento
+            item.ciudades.map(item =>{
+              if (nplus === value) {
+                labelCity = item
+              }
+              nplus++
+            })
+          }
+        })
+        this.labelCity = labelCity
+        this.labelDepartment = labelDepartment
+        return this.$apollo
+          .query({
+            query: ONE_TAX,
+            variables: {
+              citiesName: {
+                name: labelCity,
+                departamento: labelDepartment
+              }
+            },
+            fetchPolicy: "network-only"
+          })
+          .then(response => {
+            this.taxEnvio = response.data.OneTax
+          })
+          .catch(err => {
+            console.log("hubo un error: ", err);
+          });
+      },
+      mapeoCiudad(value){
+        let cant = 0
+        ciudades.map(item =>{
+          if(item.id === value){
+            item.ciudades.map(item =>{
+              let thing = {
+                value: cant,
+                label: item
+              }
+            this.citiesItem.push(thing)
+            cant++
+            })
+          }
+        })
+        this.selectCiudades = true
+      },
+      makeSelect(){
+        ciudades.map(item =>{
+          let thing = {
+            value: item.id,
+            label: item.departamento
+          }
+          this.departamentosItem.push(thing)
+        })
+      },
       format(input) {
         let num = input
         if (!isNaN(num)) {
@@ -301,7 +381,7 @@
           total: this.format(this.total),
           concept: this.concept,
           tlf: this.tlf,
-          city: this.city,
+          city: this.labelCity,
           dir: this.dir,
           email: this.email,
         }

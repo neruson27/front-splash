@@ -406,6 +406,105 @@ export const FILTER_PRODUCTS = gql`
   }
 `;
 
+export const PRODUCTS_ALL_ADMIN = gql `
+  query ProductsAll($pagination: PaginationInput){
+    ProductsAll(pagination: $pagination){
+      product {
+        _id
+        name
+        description
+        description_long
+        price
+        highlight
+        image
+        branch {
+          name
+        }
+        model
+        category {
+          _id
+          name
+          subcategory {
+            _id
+            name
+          }
+          tagsgroup{
+            _id
+            name
+            tags {
+              _id
+              name
+            }
+          }
+        }
+        subcategory {
+          _id
+          name
+        }
+        tags {
+          _id
+          name
+        }
+        ref
+        createdAt
+      }
+      pagination {
+        total
+        page
+        pages
+        limit
+      }
+    }
+  }
+`;
+
+export const ALL_PRODUCTS_ADMIN = gql `
+  query AdminProduct($pagination: PaginationInput){
+    AdminProduct(pagination: $pagination){
+      product {
+        _id
+        name
+        description
+        description_long
+        price
+        highlight
+        image
+        branch {
+          name
+        }
+        model
+        category {
+          _id
+          name
+          subcategory {
+            _id
+            name
+          }
+          tagsgroup{
+            _id
+            name
+            tags {
+              _id
+              name
+            }
+          }
+        }
+        subcategory {
+          _id
+          name
+        }
+        tags {
+          _id
+          name
+        }
+        ref
+        createdAt
+      }
+      total
+    }
+  }
+`;
+
 export const ADDPRODUCT_MUTATION = gql`
   mutation AddProduct($data: ProductInput!) {
     AddProduct(data: $data) {
