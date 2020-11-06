@@ -44,6 +44,12 @@
 
             <q-card-section class="row">
               <div class="text-center text-subtitle1 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <span>Subtotal domicilio:</span> 
+              </div>
+              <div class="text-center col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <span class="text-h6"><b>{{'$ '}}{{format(taxEnvio)}}</b></span>
+              </div>
+              <div class="text-center text-subtitle1 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <span>Total:</span> 
               </div>
               <div class="text-center col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -71,6 +77,7 @@
           <q-select hide-bottom-space :rules="[val => (val !== undefined && val !== null) || 'Esto es obligatorio!']" emit-value map-options v-model="city" :options="citiesItem" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Ciudad" />
           <q-input hide-bottom-space v-model="dir" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Dirección"></q-input>
           <q-input hide-bottom-space v-model="tlf" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Teléfono"></q-input>
+          <q-input hide-bottom-space v-model="dirExt" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Barrio - Complemento"></q-input>
           <q-input :debounce="400" hide-bottom-space v-model="email" :rules="[val => !!val || 'Esto es obligatorio!']" outlined class="col-lg-5 col-md-5 col-sm-12 col-xs-12 q-mt-sm" :class="$q.screen.lt.md ? 'q-mb-sm' : 'q-mr-sm'" label="Correo"></q-input>
           <div class="col-12 row q-mt-md justify-end">
             <!-- <q-btn style="height: 35px" class="col-3 q-mr-sm" no-caps color="whatsapp" label="Pedir por whatsapp" icon-right="img:/statics/img/whatsapp.svg"></q-btn> -->
@@ -106,6 +113,7 @@
         dni: '',
         tlf: '',
         dir: '',
+        dirExt: '',
         email: '',
         city: '',
         response: '',
@@ -382,6 +390,8 @@
           concept: this.concept,
           tlf: this.tlf,
           city: this.labelCity,
+          dirExt: this.dirExt,
+          department: this.labelDepartment,
           dir: this.dir,
           email: this.email,
         }

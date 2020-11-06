@@ -77,8 +77,8 @@
         <q-dialog v-model="loader" persistent class="row justify-center" transition-show="scale" transition-hide="scale">
           <q-spinner-oval size="200px" color="white" />
         </q-dialog>
-        <q-card flat class="col-11 " v-if="data.length > 0">
-          <q-infinite-scroll class="row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'"  @load="load" :offset="$q.screen.lt.md ? 400 : 280">
+        <q-card flat class="col-11 row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'" v-if="data.length > 0">
+          <!-- <q-infinite-scroll class="row" :class="$q.screen.lt.md ? 'justify-center' : 'justify-start'"  @load="load" :offset="$q.screen.lt.md ? 400 : 280"> -->
             <q-card
             class="my-card q-my-md q-px-sm col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 justify-center"
             v-for="(producto, index) in data"
@@ -127,10 +127,21 @@
               </q-card-section>
               <q-separator class="q-mt-sm" style="height:1px;background-color:#4b4b4b;" />
             </q-card>
-          </q-infinite-scroll>
+          <!-- </q-infinite-scroll> -->
         </q-card>
         <div class="q-ma-xl" v-else>
           <span>{{loader ? "" : "No hay productos disponibles"}}</span>
+        </div>
+        <div class="col-12 row justify-center q-pa-lg">
+          <q-pagination
+            v-model="page"
+            color="header"
+            :max="cantProd"
+            :max-pages="3"
+            :boundary-numbers="false"
+            @input="(value) => allProducts(null,value)"
+          >
+          </q-pagination>
         </div>
       </div>
     </div>
@@ -168,6 +179,7 @@ export default {
       loader: true,
       fin: false,
       page: 1,
+      cantProd: 0,
       mensajeError: "",
     };
   },
@@ -250,16 +262,17 @@ export default {
           console.log("hubo un error: ", err);
         });
     },
-    allProducts(button) {
+    allProducts(button,value) {
       if(button){
         this.data = []
         this.page = 1
         this.fin = false
       } 
       let pagination = {
-        page: this.page,
-        limit: 8
+        page: value ? value : this.page,
+        limit: 16
       }
+      console.log(pagination)
       let filter = {}
       this.loader = true
       if(this.filtroCategory) filter['categoria'] = this.filtroCategory.name
@@ -278,9 +291,9 @@ export default {
         .then(response => {
           console.log(response.data.AllProducts);
           if(response.data.AllProducts.length === 0) this.fin = true
-          response.data.AllProducts.forEach(producto => {
-            this.data.push(producto)
-          });
+          this.data = response.data.AllProducts.product
+          this.page = response.data.AllProducts.pagination.page
+          this.cantProd = response.data.AllProducts.pagination.pages
           this.dataAll = Object.assign([], response.data.AllProducts);
           this.mensajeError = "No hubo coincidencias en la busqueda"
           this.loader = false
@@ -290,14 +303,14 @@ export default {
           this.loader = false
         });
     },
-    async load(index, done) {
-      if (!this.fin) {
-        this.page = this.page+1
-        this.loader = true
-        await this.allProducts()
-      }
-      done()
-    },
+    // async load(index, done) {
+    //   if (!this.fin) {
+    //     this.page = this.page+1
+    //     this.loader = true
+    //     await this.allProducts()
+    //   }
+    //   done()
+    // },
     searchProducto(search) {
       console.log(search);
       this.data = Object.assign([], this.dataAll);

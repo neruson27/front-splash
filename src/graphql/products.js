@@ -232,44 +232,52 @@ export const CATEGORY_UPDATE = gql`
 // PRODUCTOS
 export const PRODUCTOS_QUERY = gql`
   query AllProducts($pagination: PaginationInput, $filter: FilterInput) {
-    AllProducts(pagination: $pagination, filter: $filter) {
-      _id
-      name
-      description
-      description_long
-      price
-      highlight
-      image
-      branch {
-        name
-      }
-      model
-      category {
+    AllProducts(pagination: $pagination, filter: $filter){
+      product {
         _id
         name
+        description
+        description_long
+        price
+        highlight
+        image
+        branch {
+          name
+        }
+        model
+        category {
+          _id
+          name
+          subcategory {
+            _id
+            name
+          }
+          tagsgroup{
+            _id
+            name
+            tags {
+              _id
+              name
+            }
+          }
+        }
         subcategory {
           _id
           name
         }
-        tagsgroup{
+        tags {
           _id
           name
-          tags {
-            _id
-            name
-          }
         }
+        ref
+        createdAt
       }
-      subcategory {
-        _id
-        name
+      pagination {
+        total
+        page
+        pages
+        limit
       }
-      tags {
-        _id
-        name
-      }
-      ref
-      createdAt
     }
   }
 `;
