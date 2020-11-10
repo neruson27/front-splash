@@ -137,7 +137,7 @@
             v-model="page"
             color="header"
             :max="cantProd"
-            :max-pages="3"
+            :max-pages="4"
             :boundary-numbers="false"
             @input="(value) => allProducts(null,value)"
           >

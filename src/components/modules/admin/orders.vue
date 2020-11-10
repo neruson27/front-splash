@@ -1,9 +1,9 @@
 <style>
 .logo {
-  background-image: url('/statics/img/logo_vertice.png');
+  background-image: url('/statics/img/logo_1.svg');
   background-repeat: no-repeat;
   background-size: 5em;
-  background-position: 9.5em 0.3em;
+  background-position: 90% 5%;
 }
 </style>
 <template>
@@ -76,7 +76,7 @@
             <tr v-for="(producto, index) in detalle.products" :key="index">
               <td class="text-right bg-dark">
                 <q-img
-                  :src="producto.hightlight ? config.api.url + producto.hightlight : 'statics/img/logo_vertice.svg'"
+                  :src="producto.hightlight ? config.api.url + producto.hightlight : 'statics/img/logo_1.svg'"
                   spinner-color="black"
                   height="100px"
                   width="100px"

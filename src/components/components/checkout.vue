@@ -158,7 +158,8 @@
         }
       },
       async email(newValue) {
-        if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+        console.log(this.labelCity)
+        if (this.name && this.dni && this.labelCity && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
           if(this.$refs.myform.hasChildNodes()) {
             if(this.$refs.myform.childNodes[0]) {
               this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
@@ -180,7 +181,7 @@
         
       },
       async name (newValue) {
-        if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+        if (this.name && this.dni && this.labelCity && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
           if(this.$refs.myform.hasChildNodes()) {
             if(this.$refs.myform.childNodes[0]) {
               this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
@@ -201,7 +202,7 @@
         }
     },
       async dni (newValue) {
-          if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+          if (this.name && this.dni && this.labelCity && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
             if(this.$refs.myform.hasChildNodes()) {
               if(this.$refs.myform.childNodes[0]) {
                 this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
@@ -226,7 +227,7 @@
           if(newValue !== ""){
             this.getTaxPay(newValue)
           }
-          if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+          if (this.name && this.dni && this.labelCity && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
             if(this.$refs.myform.hasChildNodes()) {
               if(this.$refs.myform.childNodes[0]) {
                 this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
@@ -248,7 +249,7 @@
           
       },
       async tlf (newValue) {
-          if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+          if (this.name && this.dni && this.labelCity && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
             if(this.$refs.myform.hasChildNodes()) {
               if(this.$refs.myform.childNodes[0]) {
                 this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
@@ -270,7 +271,7 @@
           
       },
       async dir (newValue) {
-        if (this.name && this.dni && this.city && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
+        if (this.name && this.dni && this.labelCity && this.tlf && this.dir && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.exec(this.email)) {
           if(this.$refs.myform.hasChildNodes()) {
             if(this.$refs.myform.childNodes[0]) {
               this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])
@@ -428,6 +429,7 @@
           });
       },
       async btnReady(){
+        console.log('hey')
         let payconame = `Splash : Compra de ${this.numberOfitemsInCart} articulos`
         if(this.$refs.myform.childNodes[0]) {
           this.$refs.myform.removeChild(this.$refs.myform.childNodes[0])

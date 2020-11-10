@@ -49,26 +49,87 @@
         </q-table>
       </div>
     </div>
-    <q-dialog v-model="newTaxDialog">
-      <q-card style="width: 300px">
+    <q-dialog v-model="newTaxDialog" @hide="clearAll">
+      <q-card style="min-width: 400px">
         <q-card-section>
           <div class="text-h6">Nuevo Precio de envio</div>
         </q-card-section>
 
         <q-card-section class="q-pt-sm justify-center">
-          <q-toggle v-model="boolDefault" color="blue" label="Precio general" />
+          <q-toggle v-model="boolDefault" color="blue" label="Precio general" :disabled="newCiudad"/>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <q-card-section class="row justify-between">
           <q-input
             autofocus
             dense
+            class="col-5"
             type="number"
             v-model="precioEnvioNew"
             hint="Precio de envio"
             v-on:keyup.enter="nuevoPrecioDeEnvio"
           >
           </q-input>
+
+          <div class="col-5">
+          <q-select
+            :disable="boolDefault"
+            hide-bottom-space
+            dense
+            v-model="newCiudad"
+            :options="departamentosItem"
+            emit-value
+            map-options
+            clearable
+            @clear="newCities = null"
+            label="Departamento:"
+          >
+          </q-select>
+          <q-select
+            hide-bottom-space
+            dense
+            :disable="!selectCiudades"
+            v-model="newCities"
+            :options="citiesItem"
+            emit-value
+            map-options
+            clearable
+            label="Ciudades:"
+          >
+          </q-select>
+          <q-btn class="q-mt-sm" color="primary" :disabled="(typeof newCities !== 'number')" @click="addCities" no-caps> Agregar Ciudad</q-btn>
+          </div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-markup-table v-if="citiesArr.length > 0">
+          <thead>
+            <tr>
+              <th class="text-center">Departamento</th>
+              <th class="text-center">Ciudad</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(city, index) in citiesArr" :key="index">
+              <td class="text-center">{{ city.departamento }}</td>
+              <td class="text-center">{{ city.name }}</td>
+              <td class="text-center">
+                <q-btn
+                  @click="deleteCity(index)"
+                  flat
+                  round
+                  color="vinotinto"
+                  icon="mdi-delete"
+                >
+                  <q-tooltip content-class="bg-vinotinto" :offset="[10, 10]"
+                    >Eliminar</q-tooltip
+                  >
+                </q-btn>
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
@@ -271,6 +332,7 @@ export default {
         { name: "actions", align: "left", label: "Acciones", field: "actions" },
       ],
       updating: false,
+      citiesArr: []
     };
   },
   created() {
@@ -314,7 +376,7 @@ export default {
             });
           })
           .catch((err) => {
-            console.log("error: ", err);
+            console.error("error: ", err);
           });
       } else {
         this.dialogEliminar = true
@@ -351,7 +413,11 @@ export default {
           });
         })
         .catch((err) => {
-          console.log("error: ", err);
+          console.error("error: ", err);
+          this.$q.notify({
+            message: err.message.split('GraphQL error:'),
+            color: "negative",
+          });
         });
     },
     changeValue(value) {
@@ -375,24 +441,36 @@ export default {
           });
         })
         .catch((err) => {
-          console.log("error CATEGORY: ", err);
+          console.error("error CATEGORY: ", err);
         });
     },
-    mapeoCiudad(value) {
+    mapeoCiudad(departament, city) {
       let cant = 0;
+      let citie = {}
+      this.citiesItem = []
       ciudades.map((item) => {
-        if (item.id === value) {
-          item.ciudades.map((item) => {
+        if (item.id === departament) {
+          item.ciudades.map((item2) => {
             let thing = {
               value: cant,
-              label: item,
+              label: item2,
             };
             this.citiesItem.push(thing);
             cant++;
+            citie['departamento'] = item.departamento
           });
         }
       });
+      if (city !== undefined || city !== null) {
+        this.citiesItem.map((item) => {
+          if(item.value === city) {
+            citie['name'] = item.label
+          }
+        })
+      }
+      
       this.selectCiudades = true;
+      return citie
     },
     makeSelect() {
       ciudades.map((item) => {
@@ -462,12 +540,12 @@ export default {
             message: err.message.split("GraphQL error:"),
             color: "negative",
           });
-          console.log("error: ", err);
+          console.error("error: ", err);
         });
     },
     nuevoPrecioDeEnvio() {
-      if (!parseFloat(this.precioEnvioNew) > 0) {
-        this.$q.notify({
+      if (parseFloat(this.precioEnvioNew) <= 0) {
+        return this.$q.notify({
           message: "El precio de envio debe ser mayor que 0",
           color: "negative",
         });
@@ -476,6 +554,7 @@ export default {
         tax: parseFloat(this.precioEnvioNew),
       };
       if (this.boolDefault) data["defaultTax"] = true;
+      if (this.citiesArr && this.citiesArr.length > 0) data["cities"] = this.citiesArr
       return this.$apollo
         .mutate({
           mutation: NEW_PRECIO_ENVIO,
@@ -494,7 +573,11 @@ export default {
           this.precioEnvioNew = 0
         })
         .catch((err) => {
-          console.log("error CATEGORY: ", err);
+          console.error("error CATEGORY: ", err);
+          this.$q.notify({
+            message: err.message.split('GraphQL error:'),
+            color: "negative",
+          });
         });
     },
     allTax() {
@@ -507,8 +590,29 @@ export default {
           this.taxes = response.data.AllTax;
         })
         .catch((err) => {
-          console.log("hubo un error: ", err);
+          console.error("hubo un error: ", err);
         });
+    },
+    addCities() {
+      let city = this.mapeoCiudad(this.newCiudad, this.newCities)
+      let find = this.citiesArr.find(c => c.name === city.name)
+      if(!find) {
+        this.newCiudad = null
+        this.newCities = null
+        this.citiesArr.push(city)
+      } else {
+        this.newCiudad = null
+        this.newCities = null
+
+        return this.$q.notify({
+            message: "Solo se puede agregar la misma ciudad una vez",
+            color: "negative",
+          });
+      }
+      console.error(this.citiesArr)
+    },
+    deleteCity(index) {
+      this.citiesArr.splice(index, 1)
     },
     format(input) {
       let num = input;
@@ -530,6 +634,7 @@ export default {
     clearAll() {
       this.ordenDetalle = false;
       this.selectCiudades = false;
+      this.citiesArr = []
       this.newCiudad = "";
       this.newCities = "";
     },
