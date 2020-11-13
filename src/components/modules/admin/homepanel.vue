@@ -92,11 +92,12 @@
     <div @click="$router.push('/homeAdmin?tab=ordenes')" class="col-lg-7 col-xl-7 col-md-7 col-sm-12 q-pa-md">
       <q-card bordered class="my-card">
         <q-card-section>
-          <q-card-section class="q-pa-md">
-            <div class="text-overline">Ordenes: {{orders.length}}</div>
+          <q-spinner-oval size="200px" color="white" v-if="!orders"/>
+          <q-card-section class="q-pa-md" v-else>
+            <div class="text-overline">Ordenes: {{orders.pagination.total}}</div>
             <q-table
               dense
-              :data="orders"
+              :data="orders.orders"
               :columns="columns"
               row-key="name"
               hide-bottom
@@ -134,7 +135,11 @@ export default {
       subcategories: [],
       tags: [],
       branchs: [],
-      orders: [],
+      orders: {
+        pagination: {
+          total: 0
+        }
+      },
       productsReduced: [],
       totalProducts: this.total,
       columns: [
@@ -170,11 +175,11 @@ export default {
   },
   async mounted() {
     // await this.allProducts();
-    this.allCategories();
-    this.allSubcategories();
-    this.allTags();
+    await this.allCategories();
+    await this.allSubcategories();
+    await this.allTags();
     // this.allBranchs();
-    this.allOrders();
+    await this.allOrders();
   },
   computed: {
     productosmalditasea() {
@@ -205,7 +210,7 @@ export default {
         });
     },
     allCategories() {
-      this.$apollo
+      return this.$apollo
         .query({
           query: CATEGORY_QUERY,
           fetchPolicy: "network-only"
@@ -218,7 +223,7 @@ export default {
         });
     },
     allSubcategories() {
-      this.$apollo
+      return this.$apollo
         .query({
           query: SUBCATEGORY_QUERY,
           fetchPolicy: "network-only"
@@ -234,7 +239,7 @@ export default {
         });
     },
     allTags() {
-      this.$apollo
+      return this.$apollo
         .query({
           query: TAG_QUERY,
           fetchPolicy: "network-only"
@@ -247,7 +252,7 @@ export default {
         });
     },
     allBranchs() {
-      this.$apollo
+      return this.$apollo
         .query({
           query: BRANCH_QUERY,
           fetchPolicy: "network-only"
@@ -260,12 +265,13 @@ export default {
         });
     },
     allOrders() {
-      this.$apollo
+      return this.$apollo
         .query({
           query: ALL_ORDER_QUERY,
           fetchPolicy: "network-only"
         })
         .then(response => {
+          console.log(response)
           this.orders = Object.assign([], response.data.AllOrders);
         })
         .catch(err => {

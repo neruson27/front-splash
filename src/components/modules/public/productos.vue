@@ -138,7 +138,7 @@
             color="header"
             :max="cantProd"
             :max-pages="4"
-            :boundary-numbers="false"
+            :boundary-numbers="true"
             @input="(value) => allProducts(null,value)"
           >
           </q-pagination>

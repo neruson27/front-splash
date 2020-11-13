@@ -15,12 +15,11 @@
           :pagination.sync="pagination"
           :grid-header="!$q.screen.lt.md"
           :dense="$q.screen.lt.md"
-          :data="orders"
+          :data.sync="orders"
           :columns="columns"
           card-class="bg-header logo text-white"
-          row-key="asc"
+          row-key="orden"
           :filter="filter"
-          hide-header
           @request="onRequest"
           binary-state-sort
           @row-click="(evt, row) => handler(row)"
@@ -137,7 +136,7 @@ export default {
       perPage: [],
       columns: [
         {
-          name: "asc",
+          name: "orden",
           required: true,
           label: "Orden Nª",
           align: "center",
@@ -188,12 +187,15 @@ export default {
   },
   methods: {
     onRequest(props){
-      const { page, rowsPerPage } = props ? props.pagination : this.pagination      
+      console.log(props)
+      const { page, rowsPerPage, sortBy, descending } = props ? props.pagination : this.pagination      
 
       let paginate = {
+        sort: {},
         page: page,
         limit: rowsPerPage
       }
+      paginate.sort[sortBy] = descending ? 1 : -1;
       this.allOrders(paginate)
     },
     allOrders(paginate) {
