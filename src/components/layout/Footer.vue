@@ -114,19 +114,7 @@
               </div>
             </div>
             <div class="row q-ml-md q-mt-xs q-mb-sm">
-              <div class="col-6">
-                <span style="font-size:10px;">Desarrollado por:</span>
-                <q-img src="statics/img/logo_promedios.png" spinner-color="white" width="80%" />
-              </div>
-              <div class="col-2 self-center">
-                <q-btn align="left" flat rounded type="a" href="https://wa.me/573158394620?text=Hola estoy interesad@ en contactarlos" icon="mdi-whatsapp"></q-btn>
-              </div>
-              <div class="col-2 self-center">
-                <q-btn flat rounded type="a" href="mailto:comercial@promediosdigitales.com" icon="mdi-email"></q-btn>
-              </div>
-              <div class="col-2 self-center">
-                <q-btn flat rounded type="a" href="tel:+573182534334" icon="mdi-phone-settings-outline"></q-btn>
-              </div>
+              
             </div>
           </div>
         </div>
